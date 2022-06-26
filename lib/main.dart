@@ -7,10 +7,41 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // var tag = "666";
+  final tag = "666";
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    async_print() async {
+      var tt = "ok!";
+      // tt ??= "999";
+      print("before tt = $tt");
+      await Future.delayed(Duration(seconds: 2));
+      print("after tt = tt");
+      return tt;
+    }
+
+    doSomeThing() async {
+      var data = await async_print();
+      if (data == "ok!") {
+        data = "ok from async_print";
+        print("re = $data");
+      } else {
+        print("re fail");
+      }
+      return data;
+    }
+
+    doSomeThing();
+
+    renderSome() {
+      doSomeThing().then((value) {
+        print("renderSome: $value");
+      });
+    }
+
+    renderSome();
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -23,9 +54,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home'),
     );
   }
 }
