@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 // 构建一个 List Item
 class DemoItem extends StatefulWidget {
-  const DemoItem({Key? key}) : super(key: key);
+  DemoItem({Key? key}) : super(key: key);
+
+  late int index;
+  late BuildContext context;
+
+  DemoItem.buildIndex(this.context, this.index, {Key? key}) : super(key: key);
 
   @override
   State<DemoItem> createState() => _DemoItemState();
@@ -12,7 +17,12 @@ class _DemoItemState extends State<DemoItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
+      child: InkWell(
+        onTap: () {
+          print("context: ${widget.context}");
+          print("index: " + widget.index.toString());
+        },
+        child: Padding(
           padding: const EdgeInsets.only(left: 0, top: 10, right: 10, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,7 +30,7 @@ class _DemoItemState extends State<DemoItem> {
             children: <Widget>[
               // 上面文本
               Container(
-                padding: EdgeInsets.only(left: 15.0,),
+                padding: const EdgeInsets.only(left: 15.0,),
                 child: const Text(
                   "这是⼀点描述",
                   style: TextStyle(
@@ -43,6 +53,7 @@ class _DemoItemState extends State<DemoItem> {
             ],
           ),
         ),
+      ),
       );
   }
 

@@ -16,7 +16,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // 在 main 函数中,运行的组件的根组件必须是 MaterialApp
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Rubik-Regular',
+      ),
       home: DemoPage(),
     );
   }

@@ -18,10 +18,11 @@ class _DemoPageState extends State<DemoPage> {
       ),
       body: ListView.builder(
           itemBuilder: (context, index) {
-            return const DemoItem();
+            return DemoItem.buildIndex(context, index);
           }
       ),
       backgroundColor: Colors.lightGreen,
+      // bottomNavigationBar: ,
     );
   }
 }
