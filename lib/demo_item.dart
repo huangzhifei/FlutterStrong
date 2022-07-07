@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 // 构建一个 List Item
 class DemoItem extends StatefulWidget {
-  DemoItem({Key? key}) : super(key: key);
 
-  late int index;
-  late BuildContext context;
+  final int index;
+  final BuildContext context;
 
-  DemoItem.buildIndex(this.context, this.index, {Key? key}) : super(key: key);
+  const DemoItem.buildIndex(this.context, this.index, {Key? key}) : super(key: key);
 
   @override
   State<DemoItem> createState() => _DemoItemState();
@@ -19,8 +18,8 @@ class _DemoItemState extends State<DemoItem> {
     return Card(
       child: InkWell(
         onTap: () {
-          print("context: ${widget.context}");
-          print("index: " + widget.index.toString());
+          // print("context: ${widget.context}");
+          // print("index: " + widget.index.toString());
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 0, top: 10, right: 10, bottom: 10),
