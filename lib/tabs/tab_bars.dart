@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/home/home_page.dart';
+import 'package:flutter_strong/category/category_page.dart';
 
 class TabBars extends StatefulWidget {
   const TabBars({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class _TabBarsState extends State<TabBars> {
 
   final List<Widget> _pageList = [
     const HomePageWidget(),
+    const CategoryPage(),
   ];
 
   late final PageController _pageController;

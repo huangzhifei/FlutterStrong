@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_strong/tabs/tabbars.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_strong/tabs/tab_bars.dart';
+import 'package:flutter_strong/category/category_page.dart';
 //配置路由
 final routes = {
   '/': (context) => const TabBars(),
-  // '/cart': (context) =>
+  // '/search': (context) => SearchPage(),
+  '/cart': (context) => const CategoryPage(),
 };
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {

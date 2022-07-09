@@ -123,8 +123,8 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
                   ),
                 ),
                 Padding(
+                  // 这里的 right 保证了底部 Text 和上面的 icon 居中对齐了。
                   padding: EdgeInsets.only(top: ScreenAdaper.height(5),right: ScreenAdaper.width(10)),
-                  //padding: EdgeInsets.only(top: ScreenAdaper.height(0), left: ScreenAdaper.width(20)),
                   child: Text(
                       _hotProductListData[index].price,
                       style: const TextStyle(
@@ -190,7 +190,6 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
                       ),
                     ),
                   ),
-
                   Padding(
                     // 和图片间距 10
                     padding: EdgeInsets.only(top: ScreenAdaper.height(5)),
@@ -206,7 +205,6 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
                       ),
                     ),
                   ),
-
                   Padding(
                     // 和标题间距10
                     padding: EdgeInsets.only(top: ScreenAdaper.height(10)),
@@ -258,6 +256,7 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     ScreenAdaper.init(context);
 
     return Scaffold(
@@ -266,13 +265,13 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
         leading: IconButton(
           icon: const Icon(Icons.center_focus_weak, size: 28, color:Colors.black),
           onPressed: () {
-            print("leading");
+            // print("leading");
           },
         ),
         actions: <Widget>[
           IconButton(
               onPressed: (){
-                print("1");
+                // print("1");
               },
               icon: const Icon(Icons.message, size: 28, color: Colors.black),
           ),
@@ -280,22 +279,22 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
         title: InkWell(
           // 搜索框支持点击
           child: Container(
-            height: ScreenAdaper.height(70),
+            height: ScreenAdaper.height(35),
             padding: const EdgeInsets.only(left: 10),
             decoration: BoxDecoration(
               color: const Color.fromRGBO(233, 233, 233, 0.8),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(6),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const Icon(Icons.search),
-                Text("搜索", style: TextStyle(fontSize: ScreenAdaper.fontSize(28)),),
+                Text("搜索", style: TextStyle(fontSize: ScreenAdaper.fontSize(18)),),
               ],
             ),
           ),
           onTap: () {
-            print("onTap");
+            // print("onTap");
             Navigator.pushNamed(context, "/search");
           },
         ),

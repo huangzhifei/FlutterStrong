@@ -10,9 +10,9 @@ class ProductListModel {
     result = <ProductListItemModel>[];
     if (responseResult.isNotEmpty) {
       // result = <ProductListItemModel>[];
-      responseResult.forEach((e) {
+      for (var e in responseResult) {
         result.add(ProductListItemModel.fromJson(e));
-      });
+      }
     } else {
       // 说明数据为空，人为造点数据
       result = generateDemoData();

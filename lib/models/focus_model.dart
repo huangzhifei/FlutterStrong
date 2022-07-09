@@ -18,15 +18,15 @@ import 'package:flutter/material.dart';
 class FocusModel {
   List<FocusItem> result = [];
 
-  FocusModel({List<FocusItem>? result});
+  FocusModel({required List<FocusItem> result});
 
   FocusModel.fromJson(Map<String, dynamic> json) {
     List responseResult = json["result"];
-    result = [];
+    result = <FocusItem>[];
     if (responseResult.isNotEmpty) {
-      responseResult.forEach((item){
+      for (var item in responseResult) {
         result.add(FocusItem.fromJson(item));
-      });
+      }
     } else {
       // 说明数据为空，人为造点数据
       result = generateDemoData();
