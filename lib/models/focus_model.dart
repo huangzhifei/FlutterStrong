@@ -40,7 +40,7 @@ class FocusModel {
       item.sId = "59f6ef443ce1fb0fb02c7a43";
       item.title = "笔记本电脑A";
       item.status = "1";
-      item.pic = "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/07/06/a4067df79f5681b67395baec3a2fde41.jpg";
+      item.pic = "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item.url = "12";
       data.add(item);
     }
@@ -80,7 +80,7 @@ class FocusModel {
       item.sId = "59f6ef443ce1fb0fb02c7a47";
       item.title = "笔记本电脑E";
       item.status = "1";
-      item.pic = "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/07/06/a4067df79f5681b67395baec3a2fde41.jpg";
+      item.pic = "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item.url = "16";
       data.add(item);
     }

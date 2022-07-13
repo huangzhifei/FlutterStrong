@@ -22,10 +22,12 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
   // 轮播图 FocusModel
   List<FocusItem> _focusData = [];
   _getFocusData() async {
-    var apiURL = "${Config.domain}api/focus";
-    var result = await Dio().get(apiURL);
+    // var apiURL = "${Config.domain}api/focus";
+    // var result = await Dio().get(apiURL);
+    List<dynamic> temp = [];
+    var result = {"result": temp};
     // print(result.data is Map); // String 需要 Json 化成 Map
-    FocusModel focusModel = FocusModel.fromJson(result.data);
+    FocusModel focusModel = FocusModel.fromJson(result);
     setState(() {
       _focusData = focusModel.result;
     });
@@ -87,9 +89,11 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
   // 水平列表（猜你喜欢）Model
   List<ProductListItemModel> _hotProductListData = [];
   _getHotProductData() async {
-    var apiURL = "${Config.domain}api/plist?is_hot=1";
-    var result = await Dio().get(apiURL);
-    var hotProductList = ProductListModel.fromJson(result.data);
+    // var apiURL = "${Config.domain}api/plist?is_hot=1";
+    // var result = await Dio().get(apiURL);
+    List<dynamic> temp = [];
+    var result = {"result": temp};
+    var hotProductList = ProductListModel.fromJson(result);
     setState(() {
       _hotProductListData = hotProductList.result;
     });
@@ -148,9 +152,11 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
   // 纵向列表（热门推荐) Model
   List<ProductListItemModel> _bestProductListData = [];
   _getBestProductData() async {
-    var apiURL = "${Config.domain}api/plist?is_best=1";
-    var result = await Dio().get(apiURL);
-    ProductListModel bp = ProductListModel.fromJson(result.data);
+    // var apiURL = "${Config.domain}api/plist?is_best=1";
+    // var result = await Dio().get(apiURL);
+    List<dynamic> temp = [];
+    var result = {"result": temp};
+    ProductListModel bp = ProductListModel.fromJson(result);
     setState(() {
       _bestProductListData = bp.result;
     });

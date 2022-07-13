@@ -23,9 +23,11 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
   // 左侧组件 Model
   List<CateItemModel> _leftCateList = [];
   _getLeftCateData() async {
-    var api = "${Config.domain}api/pcate";
-    var result = await Dio().get(api);
-    var leftCate = CateModel.fromJson(result.data);
+    // var api = "${Config.domain}api/pcate";
+    // var result = await Dio().get(api);
+    List<dynamic> temp = [];
+    var result = {"result": temp};
+    var leftCate = CateModel.fromJson(result, 1);
     setState(() {
       _leftCateList = leftCate.result;
     });
@@ -42,29 +44,46 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
         width: leftWidth,
         // 高度自适应屏幕
         height: double.infinity,
-        color: Colors.white,
-        child: ListView.builder(itemBuilder: (context, index) {
-          return Column(
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    // 点击切换左侧颜色
-                    _selectIndex = index;
-                    // 点击切换右侧界面
-                    _getRightCateData(_leftCateList[index].pid);
-                  });
-                },
-              ),
-              const Divider(height: 1), // 分割线1px
-            ],
-          );
-        }),
+        // color: Colors.green,
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      // 点击切换左侧颜色
+                      _selectIndex = index;
+                      // 点击切换右侧界面
+                      _getRightCateData(_leftCateList[index].pid);
+                    });
+                  },
+                  child: Container(
+                    // 文本框设置背景颜色宽高等
+                    child: Text(
+                      _leftCateList[index].title,
+                      textAlign: TextAlign.center,
+                    ),
+                    width: double.infinity,
+                    height: ScreenAdaper.height(64),
+                    padding: EdgeInsets.only(top: ScreenAdaper.height(24)),
+                    color: _selectIndex == index ? const Color.fromRGBO(240, 240, 240, 0.9) : Colors.white,
+                  ),
+                ),
+                const Divider(height: 1), // 分割线1px
+              ],
+            );
+          },
+          itemCount: _leftCateList.length,
+        ),
       );
     } else {
       return SizedBox(
         width: leftWidth,
         height: double.infinity,
+        child: const DecoratedBox(
+          decoration: BoxDecoration(color: Colors.red),
+        ),
       );
     }
   }
@@ -72,29 +91,36 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
   // 右侧组件 Model
   List<CateItemModel> _rightCateList = [];
   _getRightCateData(pid) async {
-    var api = "${Config.domain}api/pcate?pid=$pid";
-    var result = await Dio().get(api);
-    var temp = CateModel.fromJson(result.data);
+    // var api = "${Config.domain}api/pcate?pid=$pid";
+    // var result = await Dio().get(api);
+    List<dynamic> temp = [];
+    var result = {"result": temp};
+    var reTemp = CateModel.fromJson(result, 2);
     setState(() {
-      _rightCateList = temp.result;
+      _rightCateList = reTemp.result;
     });
   }
 
   // 右侧组件 UI
   Widget _rightCateWidget(rightItemWidth, rightItemHeight) {
+    print( _rightCateList.length);
     if (_rightCateList.isNotEmpty) {
       return Expanded(
+        flex: 1,
         child: Container(
           padding: const EdgeInsets.all(10),
           height: double.infinity,
           color: const Color.fromRGBO(240, 240, 240, 0.9),
+          // color: Colors.lightGreen,
           child: GridView.builder(
+              shrinkWrap: true,
+              // 动态网格布局
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   // 配置每一行的数量、宽高比、间距
                   crossAxisCount: 3,
                   // item 宽高比，适配不同设备
-                  childAspectRatio: rightItemWidth / rightItemWidth,
-                  mainAxisExtent: 10,
+                  childAspectRatio: rightItemWidth / rightItemHeight,
+                  mainAxisSpacing: 10,
                   crossAxisSpacing: 10),
               itemCount: _rightCateList.length,
               itemBuilder: (context, index) {
@@ -108,20 +134,20 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
                     });
                   },
                   child: Column(
-                    children: <Widget>[
-                      // 图片
-                      AspectRatio(
-                        aspectRatio: 1 / 1,
-                        child: Image.network(sPic, fit: BoxFit.cover),
-                      ),
-                      // 文本
-                      SizedBox(
-                        height: ScreenAdaper.height(28),
-                        child: Text(_rightCateList[index].title),
-                      ),
-                    ],
-                  ),
-                );
+                      children: <Widget>[
+                        // 图片
+                        AspectRatio(
+                          aspectRatio: 1 / 1,
+                          child: Image.network(sPic, fit: BoxFit.cover),
+                        ),
+                        // 文本
+                        SizedBox(
+                          height: ScreenAdaper.height(25),
+                          child: Text(_rightCateList[index].title),
+                        ),
+                      ],
+                    ),
+                  );
               }),
         ),
       );
@@ -161,6 +187,7 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          // 扫描按钮
           icon: const Icon(
             Icons.center_focus_weak,
             size: 28,
@@ -169,6 +196,7 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
           onPressed: () {},
         ),
         actions: [
+          // 消息按钮
           IconButton(
             onPressed: () {},
             icon: const Icon(
@@ -190,7 +218,10 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const Icon(Icons.search),
-                Text("搜索", style: TextStyle(fontSize: ScreenAdaper.fontSize(18)),),
+                Text(
+                  "搜索",
+                  style: TextStyle(fontSize: ScreenAdaper.fontSize(18)),
+                ),
               ],
             ),
           ),
