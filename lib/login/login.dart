@@ -27,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
     } else if (_password.length < 6) {
       Fluttertoast.showToast(msg: "密码格式  不正确", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
     } else {
-      var result = {"username": _username, "password": _password};
-      Storage.setString("userInfo", result.toString());
+      var result = """{"username": $_username, "password": $_password}""";
+      Storage.setString("userInfo", result);
       Navigator.pop(context);
     }
   }

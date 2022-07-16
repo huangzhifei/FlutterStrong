@@ -7,13 +7,10 @@ class UserServices {
   static getUserInfo() async {
     List userInfoList = [];
     try {
-      var ss = await Storage.getString("userInfo");
-      var userInfoMap = json.decode({"username": "_username", "password": "_password"}.toString());
-      // var userTemp = json.decode(await Storage.getString("userInfo"));
-      // List userInfoList = [];
-      // userInfoMap.forEach((key, value) {userInfoList.add(value);});
+      var userTemp = json.decode(await Storage.getString("userInfo"));
+      userTemp.forEach((key, value) {userInfoList.add(value);});
       // print(userInfoMap);
-      // print(userInfoList);
+      print(userInfoList);
     } catch (e) {
       print("error: $e");
       userInfoList = [];
