@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     } else if (_password.length < 6) {
       Fluttertoast.showToast(msg: "密码格式  不正确", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
     } else {
-      var result = """{"username": $_username, "password": $_password}""";
+      var result = """{"username": "$_username", "password": "$_password"}""";
       Storage.setString("userInfo", result);
       Navigator.pop(context);
     }
@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: ScreenAdaper.height(160),
                 width: ScreenAdaper.width(160),
                 child: Image.network(
-                  "https://github.com/huangzhifei/first_app/blob/master/assets/images/logo.png",
+                  "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png",
                   fit: BoxFit.cover,
                 ),
               ),

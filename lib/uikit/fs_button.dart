@@ -10,7 +10,7 @@ class FSButton extends StatelessWidget {
   const FSButton({Key? key,
     this.buttonColor = Colors.black,
     this.buttonTitle = "按钮",
-    this.height = 68,
+    this.height = 44,
     this.tapEvent,
   }) : super(key: key);
 

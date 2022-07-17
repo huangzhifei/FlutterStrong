@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Storage {
   static Future<void> setString(key, value) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.setString(key, value);
+    var flag = sp.setString(key, value);
+    print("保存: " + flag.toString());
   }
 
   static Future<String> getString(key) async {
