@@ -25,7 +25,7 @@ class ProductContentMainItem {
   String? sId;
   String? title;
   String? cid;
-  Object? price;
+  double price;
   String? oldPrice;
   Object? isBest;
   Object? isHot;
