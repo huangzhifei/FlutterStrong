@@ -4,7 +4,6 @@ import 'package:flutter_strong/services/events_bus.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/services/user_services.dart';
 import 'package:flutter_strong/uikit/fs_button.dart';
-import 'package:provider/provider.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -46,7 +45,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     // 获取通知提供的值，全局按钮
-    var counterProvider = Provider.of<CartProvider>(context);
+    // var counterProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
       body: ListView(

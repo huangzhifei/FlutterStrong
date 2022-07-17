@@ -39,7 +39,7 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
   // 左侧组件 UI
   Widget _leftCateWidget(leftWidth) {
     if (_leftCateList.isNotEmpty) {
-      return Container(
+      return SizedBox(
         // 左边容器固定宽度
         width: leftWidth,
         // 高度自适应屏幕
@@ -103,7 +103,6 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
 
   // 右侧组件 UI
   Widget _rightCateWidget(rightItemWidth, rightItemHeight) {
-    print( _rightCateList.length);
     if (_rightCateList.isNotEmpty) {
       return Expanded(
         flex: 1,

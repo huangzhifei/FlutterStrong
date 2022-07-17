@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/models/product_list_model.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
-import 'dart:convert';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_strong/models/focus_model.dart';
 
