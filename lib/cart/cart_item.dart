@@ -28,7 +28,7 @@ class _CartItemState extends State<CartItem> {
 
     return Container(
       height: ScreenAdaper.height(200),
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
 
       // 底部线条
       decoration: BoxDecoration(

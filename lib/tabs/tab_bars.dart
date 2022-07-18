@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/cart/cart_page.dart';
 import 'package:flutter_strong/home/home_page.dart';
 import 'package:flutter_strong/category/category_page.dart';
 import 'package:flutter_strong/mine/user_page.dart';
@@ -17,7 +18,7 @@ class _TabBarsState extends State<TabBars> {
   final List<Widget> _pageList = [
     const HomePageWidget(),
     const CategoryPage(),
-    const CategoryPage(),
+    const CartPage(),
     const UserPage(),
   ];
 
