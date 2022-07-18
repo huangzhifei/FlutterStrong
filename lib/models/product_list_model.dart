@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class ProductListModel {
   late List<ProductListItemModel> result;

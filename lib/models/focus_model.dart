@@ -13,7 +13,6 @@
 // 最重要的是编译时无法提前发现 people["name] 打错key
 
 // 下面的是手动敲的，后面考虑自动生成
-import 'package:flutter/material.dart';
 
 class FocusModel {
   List<FocusItem> result = [];

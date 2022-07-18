@@ -1,6 +1,4 @@
 
-import 'package:flutter/material.dart';
-
 class CateModel {
   List<CateItemModel> result = [];
   CateModel({required this.result});

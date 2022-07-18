@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/models/product_list_model.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';

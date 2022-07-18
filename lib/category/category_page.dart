@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/models/cate_model.dart';
-import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
-import 'package:dio/dio.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
