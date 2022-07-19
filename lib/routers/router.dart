@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/login/login.dart';
+import 'package:flutter_strong/search/search_page.dart';
 import 'package:flutter_strong/tabs/tab_bars.dart';
 import 'package:flutter_strong/category/category_page.dart';
 //配置路由
 final routes = {
   '/': (context) => const TabBars(),
-  // '/search': (context) => SearchPage(),
+  '/search': (context) => const SearchPage(),
   '/cart': (context) => const CategoryPage(),
   '/login': (context) => const LoginPage(),
 };

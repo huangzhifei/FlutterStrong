@@ -26,7 +26,7 @@ class FSButton extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: buttonColor,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Center(
           child: Text(

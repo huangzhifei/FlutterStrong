@@ -131,14 +131,13 @@ class _SearchPageState extends State<SearchPage> {
               InkWell(
                 // 点击按钮
                 child: Container(
-                  width: ScreenAdaper.width(400),
-                  height: ScreenAdaper.height(64),
+                  width: ScreenAdaper.height(144),
+                  height: ScreenAdaper.height(44),
                   decoration: BoxDecoration(
                     // 边框
-                    border: Border.all(color: Colors.black54, width: 1),
+                    border: Border.all(color: Colors.black54, width: 0.5),
                   ),
                   child: Row(
-                    // 左删除图标，右清空按钮
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const <Widget>[Icon(Icons.delete), Text("清空历史记录")],
                   ),
@@ -173,10 +172,10 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          height: ScreenAdaper.height(60),
+          height: ScreenAdaper.height(35),
           decoration: BoxDecoration(
             color: const Color.fromRGBO(233, 233, 233, 0.8),
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(6),
           ),
           padding: const EdgeInsets.only(bottom: 10),
           child: TextField(
@@ -187,7 +186,7 @@ class _SearchPageState extends State<SearchPage> {
                 // 去掉 TextField 边框
                 borderSide: BorderSide.none,
                 // 圆角和外层一样
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(6),
               ),
             ),
             onChanged: (value) {
@@ -200,11 +199,12 @@ class _SearchPageState extends State<SearchPage> {
           // 点击搜索按钮
           InkWell(
             child: SizedBox(
-              height: ScreenAdaper.height(70),
-              width: ScreenAdaper.width(80),
+              // height: ScreenAdaper.height(70),
+              // width: ScreenAdaper.width(80),
               child: Row(
                 children: const <Widget>[
-                  Text("搜索"),
+                  Text("搜索", style: TextStyle(fontSize: 16),),
+                  SizedBox(width: 15,),
                 ],
               ),
             ),
