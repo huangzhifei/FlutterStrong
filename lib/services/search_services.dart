@@ -45,6 +45,7 @@ class SearchServices {
   static getHistoryData() async {
     try {
       List searchListData = json.decode(await Storage.getString("searchList"));
+      return searchListData;
     } catch (e) {
       print(e);
       return [];
