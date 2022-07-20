@@ -1,5 +1,8 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/login/login.dart';
+import 'package:flutter_strong/product/product_list.dart';
 import 'package:flutter_strong/search/search_page.dart';
 import 'package:flutter_strong/tabs/tab_bars.dart';
 import 'package:flutter_strong/category/category_page.dart';
@@ -9,6 +12,7 @@ final routes = {
   '/search': (context) => const SearchPage(),
   '/cart': (context) => const CategoryPage(),
   '/login': (context) => const LoginPage(),
+  '/productList': (context, {arguments}) => ProductListPage(arguments: arguments),
 };
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
