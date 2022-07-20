@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/login/login.dart';
 import 'package:flutter_strong/product/product_list.dart';
