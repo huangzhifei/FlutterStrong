@@ -177,7 +177,7 @@ class _SearchPageState extends State<SearchPage> {
             color: const Color.fromRGBO(233, 233, 233, 0.8),
             borderRadius: BorderRadius.circular(6),
           ),
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.only(bottom: 8),
           child: TextField(
             // 进来默认选中，键盘弹出
             autofocus: true,

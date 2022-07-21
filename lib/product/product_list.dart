@@ -213,10 +213,11 @@ class _ProductListPageState extends State<ProductListPage> {
   // 筛选导航
   Widget _subHeaderWidget() {
     // 放在下面可以位于最顶层，盖住列表
+    // Positioned 不能给 width 为 double.infinity
     return Positioned(
       // 位于顶部
       top: 0,
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
       height: ScreenAdaper.height(70),
       child: Container(
         width: double.infinity,
@@ -289,14 +290,13 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     ScreenAdaper.init(context);
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         // 商品列表页也可以搜索
         title: Container(
-          padding: const EdgeInsets.only(bottom: 10),
-          height: ScreenAdaper.height(44),
+          padding: const EdgeInsets.only(bottom: 8),
+          height: ScreenAdaper.height(35),
           decoration: BoxDecoration(
             color: const Color.fromRGBO(233, 233, 233, 0.8),
             borderRadius: BorderRadius.circular(6),
@@ -322,24 +322,25 @@ class _ProductListPageState extends State<ProductListPage> {
         actions: <Widget>[
           InkWell(
             child: SizedBox(
-              height: ScreenAdaper.height(44),
+              // height: ScreenAdaper.height(44),
               child: Row(
                 children: const <Widget>[
-                  Text("搜索"),
+                  Text("搜索", style: TextStyle(fontSize: 16),),
+                  SizedBox(width: 15,),
                 ],
               ),
             ),
             onTap: () {
               SearchServices.setHistoryData(_keywords);
-
               _subHeaderChange(1);
             },
           ),
         ],
       ),
-      endDrawer: const Drawer(
-        child: Text("商品列表"),
-      ),
+      // 加这个会导致没有导航栏没有返回健
+      // endDrawer: const Drawer(
+      //   child: Text("商品列表"),
+      // ),
       body: _hasData ? Stack(
         children: <Widget>[
           _productListWidget(),
