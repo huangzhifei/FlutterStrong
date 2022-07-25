@@ -67,7 +67,7 @@ class _SearchPageState extends State<SearchPage> {
 
             // 跳转到商品列表页面，传入搜索值
             // 商品列表直接返回到首页，而不是搜索页面
-            Navigator.pushReplacementNamed(context, "/productList", arguments: {"keywords": _keywords});
+            Navigator.pushNamed(context, "/productList", arguments: {"keywords": _keywords});
           },
         );
       }).toList();
@@ -113,7 +113,7 @@ class _SearchPageState extends State<SearchPage> {
                     onTap: () {
                       _keywords = value;
                       SearchServices.setHistoryData(_keywords);
-                      Navigator.pushReplacementNamed(context, "/productList", arguments: {"keywords": _keywords});
+                      Navigator.pushNamed(context, "/productList", arguments: {"keywords": _keywords});
                     },
                   ),
                   const Divider(),
@@ -214,7 +214,7 @@ class _SearchPageState extends State<SearchPage> {
 
               // 跳转到商品列表页面，传入搜索
               // 商品列表直接返回到首页，而不是搜索页面
-              Navigator.pushReplacementNamed(context, "/productList", arguments: {"keywords": _keywords});
+              Navigator.pushNamed(context, "/productList", arguments: {"keywords": _keywords});
             },
           ),
         ],
