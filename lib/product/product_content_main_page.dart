@@ -40,9 +40,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/product/product_content_car_num_page.dart';
 import 'package:flutter_strong/provider/cart_provider.dart';
+import 'package:flutter_strong/services/cart_services.dart';
 import 'package:flutter_strong/services/events_bus.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
-import 'package:flutter_strong/product/product_content_car_num_page.dart';
+import 'package:flutter_strong/uikit/fs_button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class ProductContentMainPage extends StatefulWidget {
   final List _productContentList;
@@ -61,7 +64,7 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
   late ProductContentMainItem _productContent;
   List _attr = [];
   late String _selectedValue;
-  late var _actionEventBus;
+  var _actionEventBus;
   late CartProvider _cartProvider;
 
   @override
@@ -92,13 +95,58 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
     List attr = _attr;
     for (var element in attr) {
       element.attrList.clear();
+      for (int j = 0; j < element.attrList.length; j++) {
+        if (j == 0) {
+          element.attrList.add({"title": element.list[j], "checked": true});
+        } else {
+          element.attrList.add({"title": element.list[j], "checked": false});
+        }
+      }
     }
+    _attr = attr;
+
+    // 获取选中值
+    _getSelectedAttrValue();
   }
 
-  _changeAttr(cate, title, setBottomState) {}
+  _changeAttr(cate, title, setBottomState) {
+    var attr = _attr;
+    for (int i = 0; i < attr.length; i++) {
+      if (attr[i].cate == cate) {
+        for (int j = 0; j < attr[i].attrList.length; j++) {
+          attr[i].attrList[j]["checked"] = false;
+          if (title == attr[i][j]["title"]) {
+            attr[i].attrList[j]["checked"] = true;
+          }
+        }
+      }
+    }
+
+    setBottomState(() {
+      _attr = attr;
+    });
+
+    _getSelectedAttrValue();
+  }
 
   // 获取选中的值
-  _getSelectedAttrValue() {}
+  _getSelectedAttrValue() {
+    var attr = _attr;
+    List tempAttr = [];
+    for (int i = 0; i < attr.length; i++) {
+      for (int j = 0; j < attr[i].attrList.length; j++) {
+        if (attr[i].attrList[j]["checked"] == true) {
+          tempAttr.add(attr[i].attrList[j]["title"]);
+        }
+      }
+    }
+
+    setState(() {
+      _selectedValue = tempAttr.join(",");
+
+      _productContent.selectedAttr = _selectedValue;
+    });
+  }
 
   List<Widget> _getAttrItemWidget(attrItem, setBottomState) {
     List<Widget> attrItemList = [];
@@ -126,7 +174,28 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
 
   List<Widget> _getAttrWidget(setBottomState) {
     List<Widget> attrList = [];
-
+    for (var item in _attr) {
+      attrList.add(Wrap(
+        children: <Widget>[
+          SizedBox(
+            width: ScreenAdaper.width(120),
+            child: Padding(
+              padding: EdgeInsets.only(top: ScreenAdaper.height(22)),
+              child: Text(
+                "${item.cate}: ",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 120,
+            child: Wrap(
+              children: _getAttrItemWidget(item, setBottomState),
+            ),
+          ),
+        ],
+      ));
+    }
     return attrList;
   }
 
@@ -186,14 +255,48 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
                       ],
                     ),
                   ),
-                  
+
                   // 底部按钮
                   Positioned(
                     bottom: 0,
                     width: MediaQuery.of(context).size.width,
                     height: ScreenAdaper.height(76),
                     child: Row(
-                      
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            child: FSButton(
+                              buttonColor: const Color.fromRGBO(253, 1, 0, 0.9),
+                              buttonTitle: "加入购物车",
+                              tapEvent: () async {
+                                await CartServices.addCart(_productContent);
+                                // 弹出页面消失
+                                Navigator.pop(context);
+                                // 先加入购物车后再更新数据
+                                _cartProvider.updateCartList();
+                                // 弹出提示框
+                                Fluttertoast.showToast(
+                                    msg: "加入购物车成功", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
+                              },
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            child: FSButton(
+                              buttonTitle: "立即购买",
+                              buttonColor: const Color.fromRGBO(253, 165, 0, 0.9),
+                              tapEvent: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -205,6 +308,115 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    super.build(context);
+
+    ScreenAdaper.init(context);
+
+    String? pic = _productContent.pic;
+    _cartProvider = Provider.of<CartProvider>(context);
+
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: ListView(
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: 1,
+            child: Image.network(
+              pic!,
+              fit: BoxFit.cover,
+            ),
+          ),
+          // 标题
+          Container(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              _productContent.title ?? "",
+              style: TextStyle(color: Colors.black87, fontSize: ScreenAdaper.fontSize(36)),
+            ),
+          ),
+          // 二级标题
+          Container(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              _productContent.subTitle ?? "",
+              style: TextStyle(color: Colors.black54, fontSize: ScreenAdaper.fontSize(28)),
+            ),
+          ),
+          // 价格
+          Container(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(
+              children: <Widget>[
+                // 均匀分配
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    children: <Widget>[
+                      const Text("特价: "),
+                      Text(
+                        "￥${_productContent.price}",
+                        style: TextStyle(color: Colors.red, fontSize: ScreenAdaper.fontSize(46)),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      const Text("原价"),
+                      Text(
+                        "￥${_productContent.price}",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: ScreenAdaper.fontSize(46),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // 当没有筛选项目时候不显示
+          _attr.isNotEmpty ? Container(
+            margin: const EdgeInsets.only(top: 10),
+            height: ScreenAdaper.height(80),
+            child: InkWell(
+              onTap: () {
+                _attrBottomSheet();
+              },
+              child: Row(
+                children: <Widget>[
+                  const Text(
+                    "已选",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(_selectedValue),
+                ],
+              ),
+            ),
+          ) : const Text(""),
+          const Divider(),
+
+          // 运费
+          SizedBox(
+            height: ScreenAdaper.height(80),
+            child: Row(
+              children: const <Widget>[
+                Text(
+                  "运费",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text("免运费"),
+              ],
+            ),
+          ),
+          const Divider(),
+        ],
+      ),
+    );
   }
 }
