@@ -49,6 +49,8 @@ dependencies:
 
   flutter_inappwebview: ^5.4.3+7
 
+  crypto: ^3.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
