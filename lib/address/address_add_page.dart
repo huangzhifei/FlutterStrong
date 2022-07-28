@@ -13,7 +13,6 @@ class AddressAddPage extends StatefulWidget {
 }
 
 class _AddressAddPageState extends State<AddressAddPage> {
-
   String area = "";
   String name = "";
   String phone = "";
@@ -31,7 +30,6 @@ class _AddressAddPageState extends State<AddressAddPage> {
 
   @override
   Widget build(BuildContext context) {
-
     ScreenAdaper.init(context);
 
     return Scaffold(
@@ -42,21 +40,27 @@ class _AddressAddPageState extends State<AddressAddPage> {
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             FSText(
               text: "收货人姓名",
               onChanged: (value) {
                 name = value;
               },
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             FSText(
               text: "收货人电话",
               onChanged: (value) {
                 phone = value;
               },
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             // 弹出省市区
             Container(
               padding: const EdgeInsets.only(left: 5),
@@ -70,14 +74,28 @@ class _AddressAddPageState extends State<AddressAddPage> {
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.add_location),
-                    area.isNotEmpty ? Text(area, style: const TextStyle(color: Colors.black54),),
+                    area.isNotEmpty
+                        ? Text(
+                            area,
+                            style: const TextStyle(color: Colors.black54),
+                          )
+                        : const Text(
+                            "省/市/区",
+                            style: TextStyle(color: Colors.black54),
+                          ),
                   ],
                 ),
                 onTap: () async {
                   Result? result = await CityPickers.showCityPicker(
                     context: context,
-                    cancelWidget: const Text("取消", style: TextStyle(color: Colors.blue),),
-                    confirmWidget: const Text("确定", style: TextStyle(color: Colors.blue),),
+                    cancelWidget: const Text(
+                      "取消",
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    confirmWidget: const Text(
+                      "确定",
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   );
                   setState(() {
                     area = "${result!.provinceName}/${result.cityName}/${result.areaName}";
@@ -86,7 +104,9 @@ class _AddressAddPageState extends State<AddressAddPage> {
               ),
             ),
 
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             FSText(
               text: "详细地址",
               maxLines: 4,
@@ -96,7 +116,9 @@ class _AddressAddPageState extends State<AddressAddPage> {
               },
             ),
 
-            const SizedBox(height: 40,),
+            const SizedBox(
+              height: 40,
+            ),
             FSButton(
               buttonTitle: "增加",
               buttonColor: Colors.red,
