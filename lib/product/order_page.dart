@@ -13,7 +13,7 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   // 获取数据
-  List<Result> _orderList = [];
+  List<OrderResult> _orderList = [];
 
   @override
   void initState() {

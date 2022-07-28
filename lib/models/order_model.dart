@@ -1,7 +1,7 @@
 class OrderModel {
   bool success = true;
   String message = "";
-  List<Result> result = [];
+  List<OrderResult> result = [];
 
   OrderModel({required this.success, required this.message, required this.result});
 
@@ -9,7 +9,7 @@ class OrderModel {
     success = json["success"];
     message = json["message"];
     if (json["result"] != null) {
-      result = <Result>[];
+      result = <OrderResult>[];
       for (var item in json["result"]) {
         result.add(item);
       }
@@ -27,7 +27,7 @@ class OrderModel {
   }
 }
 
-class Result {
+class OrderResult {
   late String sId;
   late String uid;
   late String name;
@@ -38,7 +38,7 @@ class Result {
   late int orderStatus;
   late List<OrderItem> orderItem;
 
-  Result(
+  OrderResult(
       {required this.sId,
       required this.uid,
       required this.name,
@@ -49,7 +49,7 @@ class Result {
       required this.orderStatus,
       required this.orderItem});
 
-  Result.fromJson(Map<String, dynamic> json) {
+  OrderResult.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     uid = json['uid'];
     name = json['name'];
