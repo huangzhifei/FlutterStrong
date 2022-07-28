@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Storage {
+class FSStorage {
   static Future<void> setString(key, value) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     var flag = sp.setString(key, value);

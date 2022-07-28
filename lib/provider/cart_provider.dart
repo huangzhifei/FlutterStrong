@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_strong/services/storage.dart';
+import 'package:flutter_strong/services/fsstorage.dart';
 
 const String cartListKey = "cartList";
 // Provider：存放购物车数据，存放全选状态
@@ -18,7 +18,7 @@ class CartProvider with ChangeNotifier {
 
   init() async {
     try {
-      _cartList = json.decode(await Storage.getString(cartListKey));
+      _cartList = json.decode(await FSStorage.getString(cartListKey));
     } catch (error) {
       _cartList = [];
     }
@@ -51,7 +51,7 @@ class CartProvider with ChangeNotifier {
 
     computeAllPrice();
 
-    await Storage.setString(cartListKey, json.encode(_cartList));
+    await FSStorage.setString(cartListKey, json.encode(_cartList));
     // 通知
     notifyListeners();
   }
@@ -81,13 +81,13 @@ class CartProvider with ChangeNotifier {
     // 计算总价
     computeAllPrice();
 
-    await Storage.setString(cartListKey, json.encode(_cartList));
+    await FSStorage.setString(cartListKey, json.encode(_cartList));
 
     notifyListeners();
   }
 
   itemCountChange() {
-    Storage.setString(cartListKey, json.encode(_cartList));
+    FSStorage.setString(cartListKey, json.encode(_cartList));
 
     computeAllPrice();
 

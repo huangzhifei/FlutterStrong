@@ -1,7 +1,7 @@
 // 购物车数据类
 import 'dart:convert';
 import 'package:flutter_strong/models/product_content_main_model.dart';
-import 'package:flutter_strong/services/storage.dart';
+import 'package:flutter_strong/services/fsstorage.dart';
 
 class CartServices {
 
@@ -10,7 +10,7 @@ class CartServices {
     // 全部数据
     List cartListData = [];
     try {
-      cartListData = json.decode(await Storage.getString("cartList"));
+      cartListData = json.decode(await FSStorage.getString("cartList"));
     } catch (e) {
       print(e);
       cartListData = [];
