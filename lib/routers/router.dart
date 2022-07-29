@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/address/address_add_page.dart';
 import 'package:flutter_strong/address/address_edit_page.dart';
