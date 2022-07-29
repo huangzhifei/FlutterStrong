@@ -13,12 +13,9 @@ class ProductContentMainModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    if (result != null) {
-      data["result"] = result!.toJson();
-    }
+    data["result"] = result!.toJson();
     return data;
   }
-
 }
 
 class ProductContentMainItem {

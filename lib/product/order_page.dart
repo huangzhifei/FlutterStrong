@@ -19,6 +19,8 @@ class _OrderPageState extends State<OrderPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _getListData();
   }
 
   _getListData() async {
@@ -87,7 +89,7 @@ class _OrderPageState extends State<OrderPage> {
                         ListTile(
                           title: Text(
                             "订单编号: ${value.sId}",
-                            style: TextStyle(color: Colors.black54),
+                            style: const TextStyle(color: Colors.black54),
                           ),
                         ),
                         const Divider(),

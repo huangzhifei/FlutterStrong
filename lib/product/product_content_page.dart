@@ -24,12 +24,15 @@ class _ProductContentPageState extends State<ProductContentPage> {
   late CartProvider _cartProvider;
 
   // 页面详情 Model
-  final List _productContentList = [];
+  final List <ProductContentMainItem> _productContentList = [];
   _getDetailData() async {
     Map<String, dynamic> result = {};
     var productDetailModel = ProductContentMainModel.fromJson(result);
     setState(() {
-      _productContentList.add(productDetailModel.result);
+      ProductContentMainItem? res = productDetailModel.result;
+      if (res != null) {
+        _productContentList.add(res);
+      }
     });
   }
 
@@ -45,7 +48,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
   Widget build(BuildContext context) {
     ScreenAdaper.init(context);
     _cartProvider = Provider.of<CartProvider>(context);
-
+    double screenW = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: 3, // tab 数量
       child: Scaffold(
@@ -55,8 +58,8 @@ class _ProductContentPageState extends State<ProductContentPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                // 设置宽度让导航栏三个按钮更加紧凑
-                width: ScreenAdaper.width(400),
+                // 设置宽度为（屏幕宽-200）需要减掉左右两个空间，让导航栏三个按钮更加紧凑
+                width: (screenW - 200),
                 child: const TabBar(
                   // 底部指示器线条为红色
                   indicatorColor: Colors.red,
@@ -82,7 +85,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
                 // 弹出下拉菜单
                 showMenu(
                   context: context,
-                  position: RelativeRect.fromLTRB(ScreenAdaper.width(600), 100, 10, 0),
+                  position: RelativeRect.fromLTRB(screenW, 102, 10, 0),
                   items: [
                     PopupMenuItem(
                       child: Row(
@@ -91,6 +94,9 @@ class _ProductContentPageState extends State<ProductContentPage> {
                           Text("首页"),
                         ],
                       ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                     ),
                     PopupMenuItem(
                       child: Row(
@@ -99,6 +105,10 @@ class _ProductContentPageState extends State<ProductContentPage> {
                           Text("搜索"),
                         ],
                       ),
+                      onTap: () {
+                        print("点击搜索");
+                        Navigator.pushNamed(context, "/search");
+                      },
                     ),
                   ],
                 );
@@ -165,7 +175,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
                               buttonTitle: "加入购物车",
                               // 事件广播，在其他页面调用方法
                               tapEvent: () async {
-                                if (_productContentList[0].att.length > 0) {
+                                if (_productContentList[0].attr!.isNotEmpty) {
                                   // 弹出筛选框
                                   eventBus.fire(ProductContentEvent("加入购物车"));
                                 } else {
@@ -187,7 +197,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
                               buttonColor: const Color.fromRGBO(255, 165, 0, 0.9),
                               buttonTitle: "立即购买",
                               tapEvent: () {
-                                if (_productContentList[0].attr.length > 0) {
+                                if (_productContentList[0].attr!.isNotEmpty) {
                                   eventBus.fire(ProductContentEvent("立即购买"));
                                 } else {
                                   print("立即购买");

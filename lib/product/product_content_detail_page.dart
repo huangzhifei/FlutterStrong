@@ -28,39 +28,37 @@ class _ProductContentDetailPageState extends State<ProductContentDetailPage> wit
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-              child: InAppWebView(
-                initialUrlRequest: URLRequest(url: Uri.https("https://www.baidu.com", "")),
-                initialOptions: InAppWebViewGroupOptions(),
-                onWebViewCreated: (InAppWebViewController controller){
-                  webView = controller;
-                },
-                onLoadStart: (InAppWebViewController controller, Uri? url){
-                  setState(() {
-                    url = url;
-                  });
-                },
-                onLoadStop: (InAppWebViewController controller, Uri? url) async {
-                  setState(() {
-                    url = url;
-                  });
-                },
-                onProgressChanged: (InAppWebViewController controller, int progress) {
-                  setState(() {
-                    progress = (progress * 1.0 / 100) as int;
-                  });
-                }
-              ),
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+            child: InAppWebView(
+              initialUrlRequest: URLRequest(url: Uri.https("https://www.baidu.com", "")),
+              initialOptions: InAppWebViewGroupOptions(),
+              onWebViewCreated: (InAppWebViewController controller){
+                webView = controller;
+              },
+              onLoadStart: (InAppWebViewController controller, Uri? url){
+                setState(() {
+                  url = url;
+                });
+              },
+              onLoadStop: (InAppWebViewController controller, Uri? url) async {
+                setState(() {
+                  url = url;
+                });
+              },
+              onProgressChanged: (InAppWebViewController controller, int progress) {
+                setState(() {
+                  progress = (progress * 1.0 / 100) as int;
+                });
+              }
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -55,7 +55,6 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
     }
   }
 
-
   // 标题栏
   Widget _titleWidget(value) {
     return Container(
@@ -305,7 +304,7 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
       body: ListView(
         // 支持上下滑动
         children: <Widget>[
-          SizedBox(height: ScreenAdaper.height(2),),
+          SizedBox(height: ScreenAdaper.height(0.5),),
           _swiperWidget(),
           SizedBox(height: ScreenAdaper.height(10),),
           _titleWidget("猜你喜欢"),

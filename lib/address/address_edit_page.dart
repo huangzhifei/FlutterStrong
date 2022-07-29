@@ -96,7 +96,7 @@ class _AddressEditPageState extends State<AddressEditPage> {
                     confirmWidget: const Text("确定", style: TextStyle(color: Colors.blue),),
                   );
                   setState(() {
-                    area = "${result!.provinceName}/${result!.cityName}/${result!.areaName}";
+                    area = "${result!.provinceName}/${result.cityName}/${result.areaName}";
                   });
                 },
               ),
