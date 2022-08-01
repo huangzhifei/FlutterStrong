@@ -11,7 +11,7 @@ class _ProductContentRatePageState extends State<ProductContentRatePage> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 30,
+      itemCount: 10,
       itemBuilder: (context, index) {
         return ListTile(
           title: Text("第$index条数据"),

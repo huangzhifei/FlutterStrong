@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_strong/models/product_content_main_model.dart';
 
 class ProductContentDetailPage extends StatefulWidget {
-  final List _productContentList;
+  final List<ProductContentMainItem> _productContentList;
   const ProductContentDetailPage(this._productContentList, {Key? key}) : super(key: key);
 
   @override
@@ -32,10 +33,10 @@ class _ProductContentDetailPageState extends State<ProductContentDetailPage> wit
       children: <Widget>[
         Expanded(
           child: Container(
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+            margin: const EdgeInsets.all(1),
+            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
             child: InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.https("https://www.baidu.com", "")),
+              initialUrlRequest: URLRequest(url: Uri.https("www.baidu.com", "")),
               initialOptions: InAppWebViewGroupOptions(),
               onWebViewCreated: (InAppWebViewController controller){
                 webView = controller;
@@ -64,5 +65,5 @@ class _ProductContentDetailPageState extends State<ProductContentDetailPage> wit
 
   @override
   // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => throw UnimplementedError();
+  bool get wantKeepAlive => true;
 }

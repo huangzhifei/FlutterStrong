@@ -3,11 +3,17 @@ class ProductContentMainModel {
 
   ProductContentMainModel(this.result);
 
-  ProductContentMainModel.fromJson(Map<String, dynamic> json) {
-    if (json["result"] != null) {
-      result = ProductContentMainItem.fromJson(json["result"]);
+  // tyep: 1 为手动测试数据
+  ProductContentMainModel.fromJson(Map<String, dynamic> json, int type) {
+    if (type == 1) {
+      // 构造测试数据
+      result = _generateDemoData(json["id"]);
     } else {
-      result = null;
+      if (json["result"] != null) {
+        result = ProductContentMainItem.fromJson(json["result"]);
+      } else {
+        result = null;
+      }
     }
   }
 
@@ -16,6 +22,47 @@ class ProductContentMainModel {
     data["result"] = result!.toJson();
     return data;
   }
+
+  ProductContentMainItem? _generateDemoData(valueId) {
+    ProductContentMainItem temp = ProductContentMainItem();
+    temp.sId = valueId;
+    temp.title = "电脑";
+    temp.cid = valueId;
+    temp.price = 88;
+    temp.oldPrice = "68";
+    temp.isBest = true;
+    temp.isHot = true;
+    temp.pic = "https://img1.360buyimg.com/pop/jfs/t1/86679/17/30090/41666/629f250aEa6126d60/98e52dfec720adee.jpg";
+    temp.content = "本商品质保周期为1年质保，在此时间范围内可提交维修申请，具体请以厂家服务为准。 本产品提供上门安装调试、提供上门检测"
+        "和维修等售后服务，自收到商品之日起，如您所购买家电商品出现质量问题，请先联系厂家进行检测，凭厂商提供的故障检测证明"
+        "您可以查询本品牌在各地售后服务中心的联系方式";
+    temp.cname = "家用电器";
+    temp.subTitle = "本商品质保周期为1年质保，在此时间范围内可提交维修申请，具体请以厂家服务为准。";
+    temp.saleCount = 0.7;
+    temp.count = 3;
+    temp.selectedAttr = "自收到商品之日起，如您所购买家电商品出现质量问题，请先联系厂家进行检测，凭厂商提供的故障检测证明";
+
+    {
+      temp.attr = <Attr>[];
+      {
+        Attr attr = Attr();
+        attr.cate = "尺寸";
+        attr.list = ["电脑", "手机"];
+        attr.attrList = [{"checked": false}, {"title": "xl"}];
+        temp.attr!.add(attr);
+      }
+      {
+        Attr attr = Attr();
+        attr.cate = "颜色";
+        attr.list = ["红色", "黑色"];
+        attr.attrList = [{"checked": true}, {"title": "xxl"}];
+        temp.attr!.add(attr);
+      }
+    }
+
+    return temp;
+  }
+
 }
 
 class ProductContentMainItem {
@@ -114,7 +161,7 @@ class Attr {
   List<String>? list;
 
   // 新添加属性，用于添加 check
-  late List<Map> attrList;
+  List<Map>? attrList;
   Attr({this.cate, this.list});
 
   Attr.fromJson(Map<String, dynamic> json) {
