@@ -305,7 +305,6 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
     _cartProvider = Provider.of<CartProvider>(context);
 
     return Container(
-      height: 300,
       padding: const EdgeInsets.all(4),
       child: ListView(
         children: <Widget>[
@@ -392,13 +391,18 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
                           "已选 ",
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: ScreenAdaper.fontSize(18)),
                         ),
-                        Text(_selectedValue, style: TextStyle(fontSize: ScreenAdaper.fontSize(16)),),
+                        Text(
+                          _selectedValue,
+                          style: TextStyle(fontSize: ScreenAdaper.fontSize(16)),
+                        ),
                       ],
                     ),
                   ),
                 )
               : const Text(""),
-          const Divider(color: Colors.black54,),
+          const Divider(
+            color: Colors.black54,
+          ),
           // 运费
           SizedBox(
             height: ScreenAdaper.height(40),
@@ -406,13 +410,22 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
               children: <Widget>[
                 Text(
                   "运费 ",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: ScreenAdaper.fontSize(18),),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: ScreenAdaper.fontSize(18),
+                  ),
                 ),
-                Text("免运费", style: TextStyle(fontSize: ScreenAdaper.fontSize(16)),),
+                Text(
+                  "免运费",
+                  style: TextStyle(fontSize: ScreenAdaper.fontSize(16)),
+                ),
               ],
             ),
           ),
-          const Divider(color: Colors.black54,),
+          const Divider(
+            color: Colors.black54,
+          ),
+          const SizedBox(height: 70), // 修复底部会被上层遮挡住的问题
         ],
       ),
     );

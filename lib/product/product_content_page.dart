@@ -24,10 +24,10 @@ class _ProductContentPageState extends State<ProductContentPage> {
   late CartProvider _cartProvider;
 
   // 页面详情 Model
-  final List <ProductContentMainItem> _productContentList = [];
+  final List<ProductContentMainItem> _productContentList = [];
   _getDetailData() async {
-    Map<String, dynamic> result = {};
-    var productDetailModel = ProductContentMainModel.fromJson(result);
+    Map<String, dynamic> result = {"id": widget.arguments["id"]};
+    var productDetailModel = ProductContentMainModel.fromJson(result, 1);
     setState(() {
       ProductContentMainItem? res = productDetailModel.result;
       if (res != null) {
@@ -40,7 +40,6 @@ class _ProductContentPageState extends State<ProductContentPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _getDetailData();
   }
 
@@ -129,10 +128,13 @@ class _ProductContentPageState extends State<ProductContentPage> {
                       const ProductContentRatePage(),
                     ],
                   ),
+                  const SizedBox(
+                    height: 90+10,
+                  ),
                   // 底部按钮
                   Positioned(
                     width: MediaQuery.of(context).size.width,
-                    height: ScreenAdaper.height(88),
+                    height: ScreenAdaper.height(98),
                     bottom: 0,
                     child: Container(
                       decoration: const BoxDecoration(
@@ -140,7 +142,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
                           border: Border(
                             top: BorderSide(
                               color: Colors.black26,
-                              width: 1,
+                              width: 0.5,
                             ),
                           )),
                       child: Row(
@@ -154,14 +156,14 @@ class _ProductContentPageState extends State<ProductContentPage> {
                             child: Container(
                               padding: EdgeInsets.only(top: ScreenAdaper.height(10)),
                               width: 100,
-                              height: ScreenAdaper.height(88),
+                              height: ScreenAdaper.height(84),
                               child: Column(
                                 children: [
                                   Icon(
                                     Icons.shopping_cart,
-                                    size: ScreenAdaper.fontSize(36),
+                                    size: ScreenAdaper.fontSize(32),
                                   ),
-                                  Text("购物车", style: TextStyle(fontSize: ScreenAdaper.fontSize(22))),
+                                  Text("购物车", style: TextStyle(fontSize: ScreenAdaper.fontSize(20))),
                                 ],
                               ),
                             ),
@@ -204,6 +206,9 @@ class _ProductContentPageState extends State<ProductContentPage> {
                                 }
                               },
                             ),
+                          ),
+                          const SizedBox(
+                            width: 4,
                           ),
                         ],
                       ),
