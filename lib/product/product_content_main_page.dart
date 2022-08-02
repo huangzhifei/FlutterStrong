@@ -154,7 +154,7 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
               element["title"],
               style: TextStyle(color: (element["checked"] ? Colors.white : Colors.black54)),
             ),
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(4),
             backgroundColor: (element["checked"] ? Colors.red : Colors.black26),
           ),
         ),
@@ -167,19 +167,23 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
     List<Widget> attrList = [];
     for (var item in _attr!) {
       attrList.add(Wrap(
+        // alignment: WrapAlignment.center,
         children: <Widget>[
           SizedBox(
-            width: ScreenAdaper.width(120),
+            // color: Colors.yellow,
+            width: ScreenAdaper.width(60),
             child: Padding(
-              padding: EdgeInsets.only(top: ScreenAdaper.height(22)),
+              padding: EdgeInsets.only(top: ScreenAdaper.height(15)),
               child: Text(
                 "${item.cate}: ",
                 style: const TextStyle(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.start,
               ),
             ),
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width - 120,
+            // color: Colors.green,
+            width: MediaQuery.of(context).size.width - 100,
             child: Wrap(
               children: _getAttrItemWidget(item, setBottomState),
             ),
@@ -207,8 +211,10 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
                 children: <Widget>[
                   // 选项
                   Container(
-                    padding: EdgeInsets.all(ScreenAdaper.width(20)),
+                    // color: Colors.redAccent,
+                    padding: const EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 10),
                     child: ListView(
+                      // padding: const EdgeInsets.all(0),
                       children: <Widget>[
                         // 取消按钮
                         Align(
@@ -222,13 +228,13 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
                         ),
                         // 选项
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: _getAttrWidget(setBottomState),
                         ),
                         // 数量增减
-                        const Divider(),
+                        const Divider(color: Colors.black54),
                         Container(
-                          margin: const EdgeInsets.only(top: 10),
+                          margin: const EdgeInsets.only(left: 10,top: 10),
                           height: ScreenAdaper.height(80),
                           child: Row(
                             children: <Widget>[
@@ -249,7 +255,7 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
 
                   // 底部按钮
                   Positioned(
-                    bottom: 0,
+                    bottom: 10,
                     width: MediaQuery.of(context).size.width,
                     height: ScreenAdaper.height(76),
                     child: Row(
@@ -277,7 +283,7 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
                         Expanded(
                           flex: 1,
                           child: Container(
-                            margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            margin: const EdgeInsets.only(left:10, top:0, right: 10, bottom: 0),
                             child: FSButton(
                               buttonTitle: "立即购买",
                               buttonColor: const Color.fromRGBO(253, 165, 0, 0.9),
@@ -425,7 +431,7 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
           const Divider(
             color: Colors.black54,
           ),
-          const SizedBox(height: 70), // 修复底部会被上层遮挡住的问题
+          const SizedBox(height: 72), // 修复底部会被上层遮挡住的问题
         ],
       ),
     );

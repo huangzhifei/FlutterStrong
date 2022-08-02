@@ -22,9 +22,7 @@ class _ProductContentCarNumPageState extends State<ProductContentCarNumPage> {
 
   @override
   Widget build(BuildContext context) {
-
     ScreenAdaper.init(context);
-
     // 左侧按钮
     Widget _leftBtn() {
       return InkWell(
