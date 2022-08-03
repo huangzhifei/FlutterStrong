@@ -317,7 +317,7 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
           AspectRatio(
             aspectRatio: 1.1,
             child: Image.network(
-              pic!,
+              pic,
               fit: BoxFit.cover,
             ),
           ),
@@ -325,7 +325,7 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
           Container(
             padding: const EdgeInsets.only(top: 8),
             child: Text(
-              _productContent.title ?? "",
+              _productContent.title,
               style: TextStyle(color: Colors.black87, fontSize: ScreenAdaper.fontSize(30)),
             ),
           ),

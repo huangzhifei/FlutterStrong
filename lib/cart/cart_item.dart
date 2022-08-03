@@ -14,22 +14,19 @@ class CartItem extends StatefulWidget {
 }
 
 class _CartItemState extends State<CartItem> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     var cartProvider = Provider.of<CartProvider>(context);
 
     return Container(
-      height: ScreenAdaper.height(200),
-      padding: const EdgeInsets.all(5),
+      height: ScreenAdaper.height(160),
+      padding: const EdgeInsets.all(0),
 
       // 底部线条
       decoration: BoxDecoration(
@@ -45,7 +42,7 @@ class _CartItemState extends State<CartItem> {
         children: <Widget>[
           // 单选框
           SizedBox(
-            width: ScreenAdaper.width(50),
+            width: ScreenAdaper.width(40),
             child: Checkbox(
               value: widget._itemData.checked,
               onChanged: (bool? value) {
@@ -59,23 +56,34 @@ class _CartItemState extends State<CartItem> {
 
           // 图片
           SizedBox(
-            width: ScreenAdaper.width(160),
-            child: Image.network(widget._itemData.pic, fit: BoxFit.cover,),
+            width: ScreenAdaper.width(120),
+            child: Image.network(
+              widget._itemData.pic,
+              fit: BoxFit.cover,
+            ),
           ),
 
           // 标题
           Expanded(
             flex: 1,
             child: Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+              padding: const EdgeInsets.fromLTRB(10, 14, 10, 5),
               child: Column(
                 // 上 title，下 detail
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // title
-                  Text(widget._itemData.title, maxLines: 2,),
-                  Text(widget._itemData.selectedAttr, maxLines: 2,),
+                  Text(
+                    widget._itemData.title,
+                    maxLines: 2,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    widget._itemData.subTitle!,
+                    maxLines: 2,
+                    style: const TextStyle(fontSize: 14),
+                  ),
 
                   // 左钱，右操作
                   Stack(

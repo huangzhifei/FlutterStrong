@@ -151,7 +151,9 @@ class _ProductContentPageState extends State<ProductContentPage> {
                           // 购物车
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, '/cart');
+                              Navigator.pushNamed(context, '/cart', arguments: {
+                                "isHome": false
+                              });
                             },
                             child: Container(
                               padding: EdgeInsets.only(top: ScreenAdaper.height(10)),

@@ -4,7 +4,7 @@ class FSStorage {
   static Future<void> setString(key, value) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     var flag = sp.setString(key, value);
-    print("保存: " + flag.toString());
+    print("保存: ""$flag");
   }
 
   static Future<String> getString(key) async {

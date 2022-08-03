@@ -38,8 +38,8 @@ class _CartNumState extends State<CartNum> {
         },
         child: Container(
           alignment: Alignment.center,
-          width: ScreenAdaper.width(45),
-          height: ScreenAdaper.height(45),
+          width: ScreenAdaper.width(25),
+          height: ScreenAdaper.height(25),
           child: const Text("-"),
         ),
       );
@@ -54,8 +54,8 @@ class _CartNumState extends State<CartNum> {
         },
         child: Container(
           alignment: Alignment.center,
-          width: ScreenAdaper.width(45),
-          height: ScreenAdaper.height(45),
+          width: ScreenAdaper.width(25),
+          height: ScreenAdaper.height(25),
           child: const Text("+"),
         ),
       );
@@ -65,20 +65,21 @@ class _CartNumState extends State<CartNum> {
     Widget _centerArea() {
       return Container(
         alignment: Alignment.center,
-        width: ScreenAdaper.width(70),
+        width: ScreenAdaper.width(45),
+        height: ScreenAdaper.height(25),
         decoration: BoxDecoration(
           border: Border(
             left: BorderSide(width: ScreenAdaper.width(2), color: Colors.black12),
             right: BorderSide(width: ScreenAdaper.width(2), color: Colors.black12),
           ),
         ),
-        height: ScreenAdaper.height(45),
         child: Text("${widget._itemData.count}"),
       );
     }
 
     return Container(
-      width: ScreenAdaper.width(168),
+      width: ScreenAdaper.width(100),
+      margin: const EdgeInsets.only(bottom: 10, right: 5),
       decoration: BoxDecoration(
         border: Border.all(width: ScreenAdaper.width(2), color:Colors.black12)
       ),
