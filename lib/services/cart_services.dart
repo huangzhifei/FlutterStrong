@@ -39,9 +39,7 @@ class CartServices {
       for (var value in l) {
         cartListData.add(ProductContentMainItem.fromJson(value));
       }
-      // List<ProductContentMainItem> cartListData = l.map((e){
-      //   ProductContentMainItem.fromJson(e);
-      // }).cast<ProductContentMainItem>();
+
       // 是否有当前类型的数据
       bool hasData = cartListData.any((element) {
         // 相同 ID 的商品由于属性不一样，也要另外添加一行

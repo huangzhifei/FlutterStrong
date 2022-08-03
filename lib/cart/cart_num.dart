@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/provider/cart_provider.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:provider/provider.dart';
 
 class CartNum extends StatefulWidget {
-  final Map _itemData;
+  final ProductContentMainItem _itemData;
   const CartNum(this._itemData, {Key? key}) : super(key: key);
 
   @override
@@ -14,8 +15,7 @@ class CartNum extends StatefulWidget {
 class _CartNumState extends State<CartNum> {
   late CartProvider _cartProvider;
 
-  // 获得上一个页面传入的数据
-
+  // 获得上一个页面传入
   @override
   void initState() {
     // TODO: implement initState
@@ -31,8 +31,8 @@ class _CartNumState extends State<CartNum> {
     Widget _leftBtn() {
       return InkWell(
         onTap: () {
-          if (widget._itemData["count"] > 1) {
-            widget._itemData["count"] = widget._itemData["count"] - 1;
+          if (widget._itemData.count > 1) {
+            widget._itemData.count = widget._itemData.count - 1;
             _cartProvider.itemCountChange();
           }
         },
@@ -49,7 +49,7 @@ class _CartNumState extends State<CartNum> {
     Widget _rightBtn() {
       return InkWell(
         onTap: () {
-          widget._itemData["count"] = widget._itemData["count"] + 1;
+          widget._itemData.count = widget._itemData.count + 1;
           _cartProvider.itemCountChange();
         },
         child: Container(
@@ -73,7 +73,7 @@ class _CartNumState extends State<CartNum> {
           ),
         ),
         height: ScreenAdaper.height(45),
-        child: Text("${widget._itemData["count"]}"),
+        child: Text("${widget._itemData.count}"),
       );
     }
 

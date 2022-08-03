@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/provider/cart_provider.dart';
 import 'package:flutter_strong/cart/cart_num.dart';
 import 'package:provider/provider.dart';
 
 class CartItem extends StatefulWidget {
-  final Map _itemData;
+  final ProductContentMainItem _itemData;
   const CartItem(this._itemData, {Key? key}) : super(key: key);
 
   @override
@@ -46,10 +47,10 @@ class _CartItemState extends State<CartItem> {
           SizedBox(
             width: ScreenAdaper.width(50),
             child: Checkbox(
-              value: widget._itemData["checked"],
+              value: widget._itemData.checked,
               onChanged: (bool? value) {
                 setState(() {
-                  widget._itemData["checked"] = !widget._itemData["checked"];
+                  widget._itemData.checked = !widget._itemData.checked;
                 });
                 cartProvider.itemChange();
               },
@@ -59,7 +60,7 @@ class _CartItemState extends State<CartItem> {
           // 图片
           SizedBox(
             width: ScreenAdaper.width(160),
-            child: Image.network(widget._itemData["pic"], fit: BoxFit.cover,),
+            child: Image.network(widget._itemData.pic, fit: BoxFit.cover,),
           ),
 
           // 标题
@@ -73,8 +74,8 @@ class _CartItemState extends State<CartItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // title
-                  Text(widget._itemData["title"], maxLines: 2,),
-                  Text(widget._itemData["selectedAttr"], maxLines: 2,),
+                  Text(widget._itemData.title, maxLines: 2,),
+                  Text(widget._itemData.selectedAttr, maxLines: 2,),
 
                   // 左钱，右操作
                   Stack(
@@ -82,7 +83,7 @@ class _CartItemState extends State<CartItem> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          widget._itemData["price"],
+                          "${widget._itemData.price}",
                           style: const TextStyle(color: Colors.red),
                         ),
                       ),

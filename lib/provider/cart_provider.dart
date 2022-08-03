@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 
 const String cartListKey = "cartList";
+
 // Provider：存放购物车数据，存放全选状态
 class CartProvider with ChangeNotifier {
-  List _cartList = [];
+  List<ProductContentMainItem> _cartList = <ProductContentMainItem>[];
   // 底部Num
   int get cartNum => _cartList.length;
   // 列表
@@ -18,9 +20,12 @@ class CartProvider with ChangeNotifier {
 
   init() async {
     try {
-      _cartList = json.decode(await FSStorage.getString(cartListKey));
+      List tempData = json.decode(await FSStorage.getString(cartListKey));
+      for (var item in tempData) {
+        _cartList.add(ProductContentMainItem.fromJson(item));
+      }
     } catch (error) {
-      _cartList = [];
+      _cartList = <ProductContentMainItem>[];
     }
     // 获取
     _isCheckAll = isFirstCheckAll();
@@ -44,22 +49,21 @@ class CartProvider with ChangeNotifier {
   // 全选反选
   checkAll(value) async {
     for (var element in _cartList) {
-      element["checked"] = value;
+      element.checked = value;
     }
 
     _isCheckAll = value;
-
     computeAllPrice();
 
     await FSStorage.setString(cartListKey, json.encode(_cartList));
     // 通知
     notifyListeners();
   }
-  
+
   bool isFirstCheckAll() {
     if (_cartList.isNotEmpty) {
-      for (var i = 0; i < _cartList.length; i ++) {
-        if (_cartList[i]["checked"] == false) {
+      for (var item in _cartList) {
+        if (item.checked == false) {
           return false;
         }
       }
@@ -95,16 +99,14 @@ class CartProvider with ChangeNotifier {
   }
 
   removeItem() {
-    List tempList = [];
-    for (var i = 0; i < _cartList.length; i ++) {
-      if (_cartList[i]["checked"] == false) {
-        tempList.add(_cartList[i]);
+    List<ProductContentMainItem> tempList = [];
+    for (var item in _cartList) {
+      if (item.checked == false) {
+        tempList.add(item);
       }
     }
     _cartList = tempList;
-
     computeAllPrice();
-
     notifyListeners();
   }
 
@@ -113,13 +115,12 @@ class CartProvider with ChangeNotifier {
   // 计算总价
   computeAllPrice() {
     double tempAllPrice = 0;
-    for (var i = 0; i < _cartList.length; i ++) {
-      if (_cartList[i]["checked"] == true) {
-        tempAllPrice += _cartList[i]["price"] * _cartList[i]["count"];
+    for (var item in _cartList) {
+      if (item.checked == true) {
+        tempAllPrice += item.price * item.count;
       }
     }
     _allPrice = tempAllPrice;
-
     notifyListeners();
   }
 }
