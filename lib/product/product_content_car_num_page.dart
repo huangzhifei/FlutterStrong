@@ -28,9 +28,9 @@ class _ProductContentCarNumPageState extends State<ProductContentCarNumPage> {
       return InkWell(
         onTap: () {
           // 最多减为 1
-          if (widget._productContent.count! > 1) {
+          if (widget._productContent.count > 1) {
             setState(() {
-              widget._productContent.count = (widget._productContent.count! - 1);
+              widget._productContent.count = (widget._productContent.count - 1);
             });
           }
         },
@@ -48,7 +48,7 @@ class _ProductContentCarNumPageState extends State<ProductContentCarNumPage> {
       return InkWell(
         onTap: () {
           setState(() {
-            widget._productContent.count = (widget._productContent.count! + 1);
+            widget._productContent.count = (widget._productContent.count + 1);
           });
         },
         child: Container(

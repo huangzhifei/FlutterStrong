@@ -83,7 +83,7 @@ class ProductContentMainItem {
   Object? saleCount;
 
   // 新增
-  int? count;
+  int count = 0;
   String? selectedAttr;
 
   ProductContentMainItem({
@@ -102,7 +102,7 @@ class ProductContentMainItem {
     this.attr,
     this.subTitle,
     this.saleCount,
-    this.count,
+    this.count = 0,
     this.selectedAttr,
   });
 

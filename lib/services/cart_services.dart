@@ -1,5 +1,6 @@
-// 购物车数据类
+// 购物车数据类：涉及增加、删除、本地持久化缓存等
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 
@@ -19,17 +20,55 @@ class CartServices {
     // 筛选选中的数据
     List tempCheckOutData = [];
     for (var element in cartListData) {
-      if (element["checked"]) {
+      if (element["checked"] == true) {
         tempCheckOutData.add(element);
       }
     }
-
     return tempCheckOutData;
   }
 
-  // 加入购物车
+  // 加入购物车，由于没有服务端接口，全本地缓存
   static addCart(ProductContentMainItem item) async {
-    // item = CartServices.form
+    // 先把对象转成 Map 类型的数据
+    Map<String, dynamic> data = CartServices.formatCartData(item);
+
+    // 本地缓存
+    try {
+      List l = json.decode(await FSStorage.getString("cartList"));
+      List<ProductContentMainItem> cartListData = <ProductContentMainItem>[];
+      for (var value in l) {
+        cartListData.add(ProductContentMainItem.fromJson(value));
+      }
+      // List<ProductContentMainItem> cartListData = l.map((e){
+      //   ProductContentMainItem.fromJson(e);
+      // }).cast<ProductContentMainItem>();
+      // 是否有当前类型的数据
+      bool hasData = cartListData.any((element) {
+        // 相同 ID 的商品由于属性不一样，也要另外添加一行
+        if (data["_id"] == element.sId && data["selectedAttr"] == element.selectedAttr) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+
+      if (hasData) {
+        for (int i = 0; i < cartListData.length; i ++) {
+          if (cartListData[i].sId == item.sId && cartListData[i].selectedAttr == item.selectedAttr) {
+            cartListData[i].count = cartListData[i].count + 1;
+          }
+          await FSStorage.setString("cartList", json.encode(cartListData));
+        }
+      } else {
+        // 没有当前数据就直接添加一行
+        cartListData.add(item);
+        await FSStorage.setString("cartList", json.encode(cartListData));
+      }
+    } catch (e) {
+      print(e);
+      List<ProductContentMainItem> tempList = [];
+      await FSStorage.setString("cartList", json.encode(tempList));
+    }
   }
 
   // 过滤数据
