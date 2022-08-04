@@ -19,6 +19,8 @@ class CartProvider with ChangeNotifier {
   }
 
   init() async {
+    //
+    _cartList = <ProductContentMainItem>[];
     try {
       List tempData = json.decode(await FSStorage.getString(cartListKey));
       for (var item in tempData) {
