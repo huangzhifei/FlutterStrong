@@ -1,6 +1,6 @@
 // 购物车数据类：涉及增加、删除、本地持久化缓存等
 import 'dart:convert';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 

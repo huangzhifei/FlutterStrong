@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:flutter_strong/provider/cart_provider.dart';
 import 'package:flutter_strong/provider/checkout_provider.dart';
 import 'package:flutter_strong/services/check_out_services.dart';
 import 'package:flutter_strong/services/events_bus.dart';
+import 'package:flutter_strong/services/fsstorage.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/services/user_services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_strong/models/product_content_main_model.dart';
 
 class CheckOutPage extends StatefulWidget {
   const CheckOutPage({Key? key}) : super(key: key);
@@ -27,34 +30,38 @@ class _CheckOutPageState extends State<CheckOutPage> {
     super.initState();
 
     _getDefaultAddress();
-
     eventBus.on<DefaultAddressEvent>().listen((event) {
       _getDefaultAddress();
     });
   }
 
   _getDefaultAddress() async {
-    List userInfo = await UserServices.getUserInfo();
-    var temJson = {
-      "uid": userInfo[0]["_id"],
-      "salt": userInfo[0]["salt"],
-    };
+    bool isLogin = await UserServices.getUserState();
+    if (isLogin) {
+      // 获取缓存的默认地址
+      List defaultAdData = json.decode(await FSStorage.getString("DefaultAddress"));
+    } else {
+      Fluttertoast.showToast(msg: "请先登陆", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
+      Navigator.pushNamed(context, "/login");
+    }
 
     var response = {};
     setState(() {
-      _addressList = response["result"];
+      // todo
     });
   }
 
   // 商品 item ui
-  Widget _checkOutItem(item) {
+  Widget _checkOutItem(value) {
+    ProductContentMainItem item = ProductContentMainItem.fromJson(value);
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         // 图片
         SizedBox(
-          width: ScreenAdaper.width(160),
+          width: ScreenAdaper.width(120),
           child: Image.network(
-            item["pic"],
+            item.pic,
             fit: BoxFit.cover,
           ),
         ),
@@ -63,31 +70,38 @@ class _CheckOutPageState extends State<CheckOutPage> {
         Expanded(
           flex: 1,
           child: Container(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+            // color: Colors.purple,
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Text(item.title, maxLines: 2, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 30,),
                 Text(
-                  item["title"],
+                  item.selectedAttr.isNotEmpty ? item.selectedAttr : "测试数据",
                   maxLines: 2,
+                  style: const TextStyle(fontSize: 16),
                 ),
-                Text(
-                  item["selectedAttr"],
-                  maxLines: 2,
+                const SizedBox(
+                  height: 60,
                 ),
                 Stack(
+                  alignment: AlignmentDirectional.bottomStart,
                   children: <Widget>[
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.bottomLeft,
                       child: Text(
-                        "￥${item["price"]}",
-                        style: const TextStyle(color: Colors.red),
+                        "￥${item.price}",
+                        style: const TextStyle(color: Colors.red, fontSize: 16),
                       ),
                     ),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text("x${item["count"]}"),
+                      child: Text(
+                        "x${item.count}",
+                        style: const TextStyle(color: Colors.black, fontSize: 16),
+                      ),
                     ),
                   ],
                 ),
@@ -126,7 +140,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           leading: const Icon(Icons.add_location),
                           title: const Center(
                             // 使文本居中
-                            child: Text("请添加收获地址"),
+                            child: Text("请添加收获地址", style: TextStyle(fontWeight: FontWeight.bold),),
                           ),
                           trailing: const Icon(Icons.navigate_next),
                           onTap: () {
@@ -152,12 +166,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 ],
               ),
               const Divider(
-                height: 20,
+                height: 1,
               ),
 
               // 商品列表
               Container(
-                padding: EdgeInsets.all(ScreenAdaper.width(20)),
+                padding: EdgeInsets.all(ScreenAdaper.width(8)),
                 child: Column(
                   children: _checkOutProvider.checkOutListData.map((e) {
                     return Column(
@@ -172,16 +186,17 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
               // 运费
               Container(
-                color: Colors.white,
-                padding: EdgeInsets.all(ScreenAdaper.width(20)),
+                // color: Colors.blue,
+                padding: EdgeInsets.only(
+                    left: ScreenAdaper.width(8), right: ScreenAdaper.width(8), bottom: ScreenAdaper.width(10)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
-                    Text("商品金额：￥100"),
+                    Text("商品金额：￥100", style: TextStyle(fontSize: 16),),
                     Divider(),
-                    Text("立减：￥5"),
+                    Text("立减：￥5", style: TextStyle(fontSize: 16),),
                     Divider(),
-                    Text("运费：￥0"),
+                    Text("运费：￥0", style: TextStyle(fontSize: 16),),
                   ],
                 ),
               ),
@@ -190,14 +205,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
               Positioned(
                 bottom: 0,
                 width: MediaQuery.of(context).size.width,
-                height: ScreenAdaper.height(100),
+                height: ScreenAdaper.height(60),
                 child: Container(
                   padding: const EdgeInsets.all(5),
                   width: MediaQuery.of(context).size.width,
-                  height: ScreenAdaper.height(100),
+                  height: ScreenAdaper.height(60),
                   // 线条
                   decoration: const BoxDecoration(
-                      color: Colors.white,
+                      // color: Colors.white,
                       border: Border(
                           top: BorderSide(
                         width: 1,
@@ -207,7 +222,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     children: <Widget>[
                       // 总价
                       Align(
-                        alignment: Alignment.centerRight,
+                        alignment: Alignment.bottomRight,
                         child: ElevatedButton(
                           onPressed: () async {
                             // 有默认收获地址才可以下单

@@ -1,9 +1,13 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+
 class ProductContentMainModel {
   late ProductContentMainItem? result;
 
   ProductContentMainModel(this.result);
 
-  // tyep: 1 为手动测试数据
+  // type: 1 为手动测试数据
   ProductContentMainModel.fromJson(Map<String, dynamic> json, int type) {
     if (type == 1) {
       // 构造测试数据
@@ -26,10 +30,10 @@ class ProductContentMainModel {
   ProductContentMainItem? _generateDemoData(valueId) {
     ProductContentMainItem temp = ProductContentMainItem();
     temp.sId = valueId;
-    temp.title = "电脑";
+    temp.title = "电脑 " + valueId;
     temp.cid = valueId;
-    temp.price = 88;
-    temp.oldPrice = 68;
+    temp.price = 88 + Random().nextInt(10) * 1.0;
+    temp.oldPrice = 68 + Random().nextInt(10) * 1.0;
     temp.isBest = true;
     temp.isHot = true;
     temp.pic = "https://img1.360buyimg.com/pop/jfs/t1/86679/17/30090/41666/629f250aEa6126d60/98e52dfec720adee.jpg";
@@ -39,7 +43,7 @@ class ProductContentMainModel {
     temp.cname = "家用电器";
     temp.subTitle = "本商品质保周期为1年质保，在此时间范围内可提交维修申请，具体请以厂家服务为准。";
     temp.saleCount = 0.7;
-    temp.count = 3;
+    temp.count = 1 + Random().nextInt(4);
     temp.selectedAttr = "自收到商品之日起，如您所购买家电商品出现质量问题，请先联系厂家进行检测，凭厂商提供的故障检测证明";
 
     {
@@ -59,10 +63,8 @@ class ProductContentMainModel {
         temp.attr!.add(attr);
       }
     }
-
     return temp;
   }
-
 }
 
 class ProductContentMainItem {
@@ -132,6 +134,7 @@ class ProductContentMainItem {
     // 新增
     count = 1;
     selectedAttr = '';
+    checked = json["checked"];
   }
 
   Map<String, dynamic> toJson() {
@@ -153,6 +156,9 @@ class ProductContentMainItem {
     }
     data['sub_title'] = subTitle;
     data['sale_count'] = saleCount;
+    data['checked'] = checked;
+    data['selectedAttr'] = selectedAttr;
+
     return data;
   }
 }

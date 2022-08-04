@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_strong/cart/cart_item.dart';
 import 'package:flutter_strong/provider/cart_provider.dart';
 import 'package:flutter_strong/provider/checkout_provider.dart';
