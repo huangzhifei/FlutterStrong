@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 
 class SearchServices {
@@ -18,7 +19,7 @@ class SearchServices {
      */
     try {
       // 将 json 字符串转化
-      List searchListData = json.decode(await FSStorage.getString("searchList"));
+      List searchListData = json.decode(await FSStorage.getString(kSearchListKey));
 
       // 判断本地存储是否有数据：判断数组中是否有某个值
       var hasKeywords = searchListData.any((element) {
@@ -28,7 +29,7 @@ class SearchServices {
       // 如果没有当前数据：本地存储的数据和当前数据拼接后重新写入
       if (!hasKeywords) {
         searchListData.add(keywords);
-        await FSStorage.setString("searchList", json.encode(searchListData));
+        await FSStorage.setString(kSearchListKey, json.encode(searchListData));
       }
 
     } catch(e) {
@@ -37,14 +38,14 @@ class SearchServices {
       List tempList = [];
       tempList.add(keywords);
       // 将数组转化为字符串
-      await FSStorage.setString("searchList", json.encode(tempList));
+      await FSStorage.setString(kSearchListKey, json.encode(tempList));
     }
   }
 
   // 从本地缓存里取出历史搜索记录
   static getHistoryData() async {
     try {
-      List searchListData = json.decode(await FSStorage.getString("searchList"));
+      List searchListData = json.decode(await FSStorage.getString(kSearchListKey));
       return searchListData;
     } catch (e) {
       print(e);
@@ -59,8 +60,8 @@ class SearchServices {
 
   // 长按删除某条历史记录
   static removeHistoryData(keywords) async {
-    List searchListData = json.decode(await FSStorage.getString("searchList"));
+    List searchListData = json.decode(await FSStorage.getString(kSearchListKey));
     searchListData.remove(keywords);
-    await FSStorage.setString("searchList", json.encode(searchListData));
+    await FSStorage.setString(kSearchListKey, json.encode(searchListData));
   }
 }

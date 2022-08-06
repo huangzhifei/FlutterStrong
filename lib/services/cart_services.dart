@@ -1,6 +1,7 @@
 // 购物车数据类：涉及增加、删除、本地持久化缓存等
 import 'dart:convert';
 
+import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 
@@ -11,7 +12,7 @@ class CartServices {
     // 全部数据
     List cartListData = [];
     try {
-      cartListData = json.decode(await FSStorage.getString("cartList"));
+      cartListData = json.decode(await FSStorage.getString(kCartListKey));
     } catch (e) {
       print(e);
       cartListData = [];
@@ -34,7 +35,7 @@ class CartServices {
 
     // 本地缓存
     try {
-      List l = json.decode(await FSStorage.getString("cartList"));
+      List l = json.decode(await FSStorage.getString(kCartListKey));
       List<ProductContentMainItem> cartListData = <ProductContentMainItem>[];
       for (var value in l) {
         cartListData.add(ProductContentMainItem.fromJson(value));
@@ -55,17 +56,17 @@ class CartServices {
           if (cartListData[i].sId == item.sId && cartListData[i].selectedAttr == item.selectedAttr) {
             cartListData[i].count = cartListData[i].count + 1;
           }
-          await FSStorage.setString("cartList", json.encode(cartListData));
+          await FSStorage.setString(kCartListKey, json.encode(cartListData));
         }
       } else {
         // 没有当前数据就直接添加一行
         cartListData.add(item);
-        await FSStorage.setString("cartList", json.encode(cartListData));
+        await FSStorage.setString(kCartListKey, json.encode(cartListData));
       }
     } catch (e) {
       print(e);
       List<ProductContentMainItem> tempList = [];
-      await FSStorage.setString("cartList", json.encode(tempList));
+      await FSStorage.setString(kCartListKey, json.encode(tempList));
     }
   }
 

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/config/config.dart';
+import 'package:flutter_strong/models/address_model.dart';
 import 'package:flutter_strong/services/events_bus.dart';
+import 'package:flutter_strong/services/fsstorage.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/services/user_services.dart';
+import 'dart:convert';
 
 class AddressListPage extends StatefulWidget {
   const AddressListPage({Key? key}) : super(key: key);
@@ -12,7 +16,7 @@ class AddressListPage extends StatefulWidget {
 
 class _AddressListPageState extends State<AddressListPage> {
   // 请求列表数据
-  List addressList = [];
+  late List<AddressModel> _addressList = <AddressModel>[];
 
   @override
   void initState() {
@@ -20,7 +24,6 @@ class _AddressListPageState extends State<AddressListPage> {
     super.initState();
 
     _getAddressList();
-
     eventBus.on<AddressEvent>().listen((event) {
       print(event);
       _getAddressList();
@@ -28,10 +31,15 @@ class _AddressListPageState extends State<AddressListPage> {
   }
 
   _getAddressList() async {
-    // 请求接口
-    var response = [];
+    List tempData = json.decode(await FSStorage.getString(kUsualAddressListKey));
+    List <AddressModel> address = <AddressModel>[];
+    if (tempData.isNotEmpty) {
+      for (var item in tempData) {
+        address.add(AddressModel.fromJson(item));
+      }
+    }
     setState(() {
-      addressList = response;
+      _addressList = address;
     });
   }
 
@@ -50,12 +58,20 @@ class _AddressListPageState extends State<AddressListPage> {
   }
 
   // 删除框
-  _delAddress(value) async {
+  _delAddress(AddressModel value) async {
     // 本地
     bool isLogin = await UserServices.getUserState();
     if (isLogin) {
       // 删掉本地的某条记录
+      List<AddressModel> tempData = <AddressModel>[];
+      for (var item in _addressList) {
+        if (item.sId == value.sId) {
 
+        } else {
+          tempData.add(item);
+        }
+      }
+      await FSStorage.setString(kUsualAddressListKey, json.encode(tempData));
       // 重新刷新列表
       _getAddressList();
     } else {
@@ -111,7 +127,7 @@ class _AddressListPageState extends State<AddressListPage> {
         children: <Widget>[
           // 地址列表
           ListView.builder(
-              itemCount: addressList.length,
+              itemCount: _addressList.length,
               itemBuilder: (buildContext, index) {
                 return Column(
                   children: <Widget>[
@@ -119,7 +135,7 @@ class _AddressListPageState extends State<AddressListPage> {
                       height: 20,
                     ),
                     ListTile(
-                      leading: addressList[index]["default_address"] == 1
+                      leading: _addressList[index].isDefaultAddress == true
                           ? const Icon(
                               Icons.check,
                               color: Colors.red,
@@ -129,20 +145,20 @@ class _AddressListPageState extends State<AddressListPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("${addressList[index]["name"]} ${addressList[index]["phone"]}"),
+                            Text("${_addressList[index].name} ${_addressList[index].phone}"),
                             const SizedBox(
                               height: 10,
                             ),
-                            Text("${addressList[index]["address"]}"),
+                            Text(_addressList[index].address),
                           ],
                         ),
                         onTap: () {
                           // 修改默认地址
-                          _changeDefaultAddress(addressList[index]["_id"]);
+                          _changeDefaultAddress(_addressList[index].sId);
                         },
                         onLongPress: () {
                           // 删除收货地址
-                          _showDelAlertDialog(addressList[index]["_id"]);
+                          _showDelAlertDialog(_addressList[index].sId);
                         },
                       ),
                       trailing: IconButton(
@@ -152,10 +168,10 @@ class _AddressListPageState extends State<AddressListPage> {
                         ),
                         onPressed: () {
                           Navigator.pushNamed(context, "/addressEdit", arguments: {
-                            "id": addressList[index]["_id"],
-                            "name": addressList[index]["name"],
-                            "phone": addressList[index]["phone"],
-                            "address": addressList[index]["address"],
+                            "sId": _addressList[index].sId,
+                            "name": _addressList[index].name,
+                            "phone": _addressList[index].phone,
+                            "address": _addressList[index].address,
                           });
                         },
                       ),

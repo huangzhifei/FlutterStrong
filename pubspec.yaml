@@ -53,6 +53,8 @@ dependencies:
 
   city_pickers: ^1.1.2
 
+  uuid: ^3.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

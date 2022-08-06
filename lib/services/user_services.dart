@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 
 class UserServices {
@@ -6,7 +8,7 @@ class UserServices {
   static getUserInfo() async {
     List userInfoList = [];
     try {
-      var userTemp = json.decode(await FSStorage.getString("userInfo"));
+      var userTemp = json.decode(await FSStorage.getString(kUserInfoKey));
       userTemp.forEach((key, value) {userInfoList.add(value);});
       // print(userInfoMap);
       // print(userInfoList);

@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/config/config.dart';
+import 'package:flutter_strong/models/address_model.dart';
 import 'dart:convert';
 import 'package:flutter_strong/provider/cart_provider.dart';
 import 'package:flutter_strong/provider/checkout_provider.dart';
@@ -10,6 +14,7 @@ import 'package:flutter_strong/services/user_services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_strong/models/product_content_main_model.dart';
+import 'package:uuid/uuid.dart';
 
 class CheckOutPage extends StatefulWidget {
   const CheckOutPage({Key? key}) : super(key: key);
@@ -20,8 +25,7 @@ class CheckOutPage extends StatefulWidget {
 
 class _CheckOutPageState extends State<CheckOutPage> {
   // 获取默认地址
-  List _addressList = [];
-
+  late AddressModel _defaultAddress = AddressModel(sId: "");
   late CheckOutProvider _checkOutProvider;
 
   @override
@@ -38,17 +42,35 @@ class _CheckOutPageState extends State<CheckOutPage> {
   _getDefaultAddress() async {
     bool isLogin = await UserServices.getUserState();
     if (isLogin) {
-      // 获取缓存的默认地址
-      List defaultAdData = json.decode(await FSStorage.getString("DefaultAddress"));
+      // 获取收货地址列表
+      List tempAddressList = json.decode(await FSStorage.getString(kUsualAddressListKey));
+      if (tempAddressList.isNotEmpty) {
+        AddressModel addressData = AddressModel(sId: "");
+        for (var item in tempAddressList) {
+          AddressModel m = AddressModel.fromJson(item);
+          if (m.isDefaultAddress && m.sId.isNotEmpty) {
+            addressData = m;
+            break;
+          }
+        }
+        // if (m.sId.isEmpty) {
+        //   m.sId = const Uuid().v4();
+        //   await FSStorage.setString(kDefaultAddressKey, json.encode(m));
+        // }
+        setState(() {
+          // todo
+          _defaultAddress = addressData;
+        });
+      } else {
+        setState(() {
+          // todo
+          _defaultAddress = AddressModel(sId: "");
+        });
+      }
     } else {
       Fluttertoast.showToast(msg: "请先登陆", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
       Navigator.pushNamed(context, "/login");
     }
-
-    var response = {};
-    setState(() {
-      // todo
-    });
   }
 
   // 商品 item ui
@@ -135,7 +157,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  _addressList.isEmpty
+                  _defaultAddress.sId.isEmpty
                       ? ListTile(
                           leading: const Icon(Icons.add_location),
                           title: const Center(
@@ -151,11 +173,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text("${_addressList[0]["name"]} ${_addressList[0]["phone"]}"),
+                              Text("${_defaultAddress.name} ${_defaultAddress.phone}"),
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text("${_addressList[0]["address"]}"),
+                              Text(_defaultAddress.address),
                             ],
                           ),
                           trailing: const Icon(Icons.navigate_next),
@@ -188,7 +210,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
               Container(
                 // color: Colors.blue,
                 padding: EdgeInsets.only(
-                    left: ScreenAdaper.width(8), right: ScreenAdaper.width(8), bottom: ScreenAdaper.width(10)),
+                    left: ScreenAdaper.width(8),
+                    right: ScreenAdaper.width(8),
+                    bottom: ScreenAdaper.width(10)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
@@ -226,7 +250,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         child: ElevatedButton(
                           onPressed: () async {
                             // 有默认收获地址才可以下单
-                            if (_addressList.isNotEmpty) {
+                            if (_defaultAddress.sId.isNotEmpty) {
                               bool isLogin = await UserServices.getUserState();
                               // 有登陆态，就假设下单会成功
                               if (isLogin) {

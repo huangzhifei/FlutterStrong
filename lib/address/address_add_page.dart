@@ -1,22 +1,25 @@
+import 'dart:convert';
 import 'package:city_pickers/city_pickers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/config/config.dart';
+import 'package:flutter_strong/models/address_model.dart';
 import 'package:flutter_strong/services/events_bus.dart';
+import 'package:flutter_strong/services/fsstorage.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/uikit/fs_button.dart';
 import 'package:flutter_strong/uikit/fs_text.dart';
+import 'package:uuid/uuid.dart';
 
 class AddressAddPage extends StatefulWidget {
-  const AddressAddPage({Key? key}) : super(key: key);
+  final bool isDefaultAddress;
+  const AddressAddPage({Key? key, required this.isDefaultAddress}) : super(key: key);
 
   @override
   State<AddressAddPage> createState() => _AddressAddPageState();
 }
 
 class _AddressAddPageState extends State<AddressAddPage> {
-  String area = "";
-  String name = "";
-  String phone = "";
-  String address = "";
+  late AddressModel addressModel = AddressModel(sId: const Uuid().v4(), isDefaultAddress: widget.isDefaultAddress);
 
   // 页面销毁广播
   @override
@@ -46,7 +49,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
             FSText(
               text: "收货人姓名",
               onChanged: (value) {
-                name = value;
+                addressModel.name = value;
               },
             ),
             const SizedBox(
@@ -55,7 +58,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
             FSText(
               text: "收货人电话",
               onChanged: (value) {
-                phone = value;
+                addressModel.phone = value;
               },
             ),
             const SizedBox(
@@ -74,9 +77,9 @@ class _AddressAddPageState extends State<AddressAddPage> {
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.add_location),
-                    area.isNotEmpty
+                    addressModel.area.isNotEmpty
                         ? Text(
-                            area,
+                            addressModel.area,
                             style: const TextStyle(color: Colors.black54),
                           )
                         : const Text(
@@ -98,7 +101,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
                     ),
                   );
                   setState(() {
-                    area = "${result!.provinceName}/${result.cityName}/${result.areaName}";
+                    addressModel.area = "${result!.provinceName}/${result.cityName}/${result.areaName}";
                   });
                 },
               ),
@@ -112,7 +115,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
               maxLines: 4,
               height: 200,
               onChanged: (value) {
-                address = "$area $value";
+                addressModel.address = "${addressModel.area} $value";
               },
             ),
 
@@ -123,7 +126,15 @@ class _AddressAddPageState extends State<AddressAddPage> {
               buttonTitle: "增加",
               buttonColor: Colors.red,
               tapEvent: () async {
-                // 假设成功
+                print("点击了 增加 按钮");
+                // 获取收货地址列表
+                List tempAddressList = json.decode(await FSStorage.getString(kUsualAddressListKey));
+                if (tempAddressList.isEmpty) {
+                  tempAddressList = [];
+                }
+                // 插入新的
+                tempAddressList.add(json.encode(addressModel));
+                await FSStorage.setString(kUsualAddressListKey, json.encode(tempAddressList));
                 Navigator.pop(context);
               },
             ),

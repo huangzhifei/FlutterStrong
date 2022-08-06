@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 
 class CheckOutServices {
@@ -19,7 +20,7 @@ class CheckOutServices {
 
     // 获取购物车的数据
     try {
-      List cartListData = json.decode(await FSStorage.getString("cartList"));
+      List cartListData = json.decode(await FSStorage.getString(kCartListKey));
       _cartList = cartListData;
     } catch (e) {
       print(e);
@@ -32,6 +33,6 @@ class CheckOutServices {
       }
     }
 
-    FSStorage.setString("cartList", json.encode(_tempList));
+    FSStorage.setString(kCartListKey, json.encode(_tempList));
   }
 }

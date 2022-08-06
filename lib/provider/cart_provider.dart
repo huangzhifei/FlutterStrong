@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
-
-const String cartListKey = "cartList";
 
 // Provider：存放购物车数据，存放全选状态
 class CartProvider with ChangeNotifier {
@@ -22,7 +21,7 @@ class CartProvider with ChangeNotifier {
     //
     _cartList = <ProductContentMainItem>[];
     try {
-      List tempData = json.decode(await FSStorage.getString(cartListKey));
+      List tempData = json.decode(await FSStorage.getString(kCartListKey));
       for (var item in tempData) {
         _cartList.add(ProductContentMainItem.fromJson(item));
       }
@@ -57,7 +56,7 @@ class CartProvider with ChangeNotifier {
     _isCheckAll = value;
     computeAllPrice();
 
-    await FSStorage.setString(cartListKey, json.encode(_cartList));
+    await FSStorage.setString(kCartListKey, json.encode(kCartListKey));
     // 通知
     notifyListeners();
   }
@@ -86,17 +85,13 @@ class CartProvider with ChangeNotifier {
 
     // 计算总价
     computeAllPrice();
-
-    await FSStorage.setString(cartListKey, json.encode(_cartList));
-
+    await FSStorage.setString(kCartListKey, json.encode(_cartList));
     notifyListeners();
   }
 
   itemCountChange() {
-    FSStorage.setString(cartListKey, json.encode(_cartList));
-
+    FSStorage.setString(kCartListKey, json.encode(_cartList));
     computeAllPrice();
-
     notifyListeners();
   }
 

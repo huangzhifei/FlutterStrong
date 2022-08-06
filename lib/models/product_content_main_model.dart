@@ -132,8 +132,8 @@ class ProductContentMainItem {
     saleCount = json['sale_count'];
 
     // 新增
-    count = 1;
-    selectedAttr = '';
+    count = json['count'] ?? 1;
+    selectedAttr = json["selectedAttr"];
     checked = json["checked"];
   }
 
@@ -158,6 +158,7 @@ class ProductContentMainItem {
     data['sale_count'] = saleCount;
     data['checked'] = checked;
     data['selectedAttr'] = selectedAttr;
+    data['count'] = count;
 
     return data;
   }
