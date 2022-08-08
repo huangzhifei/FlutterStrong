@@ -39,9 +39,9 @@ class _AddressEditPageState extends State<AddressEditPage> {
 
   @override
   void dispose() {
+    eventBus.fire(AddressEvent("编辑成功..."));
     // TODO: implement dispose
     super.dispose();
-    eventBus.fire(AddressEvent("编辑成功..."));
   }
 
   @override
@@ -55,6 +55,8 @@ class _AddressEditPageState extends State<AddressEditPage> {
       body: Container(
         padding: const EdgeInsets.all(10),
         child: ListView(
+          shrinkWrap: true,
+          physics: const ScrollPhysics(),
           children: <Widget>[
             const SizedBox(
               height: 20,
@@ -113,7 +115,9 @@ class _AddressEditPageState extends State<AddressEditPage> {
                     ),
                   );
                   setState(() {
-                    addressModel.area = "${result!.provinceName}/${result.cityName}/${result.areaName}";
+                    if (result != null) {
+                      addressModel.area = "${result.provinceName}/${result.cityName}/${result.areaName}";
+                    }
                   });
                 },
               ),

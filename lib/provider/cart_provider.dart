@@ -59,7 +59,7 @@ class CartProvider with ChangeNotifier {
     _isCheckAll = value;
     computeAllPrice();
 
-    await FSStorage.setString(kCartListKey, json.encode(kCartListKey));
+    await FSStorage.setString(kCartListKey, json.encode(_cartList));
     // 通知
     notifyListeners();
   }

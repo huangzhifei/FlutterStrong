@@ -138,6 +138,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
                   tempAddressList.add(addressModel.toJson());
                 } else {
                   tempAddressList = json.decode(tempD);
+                  tempAddressList.add(addressModel.toJson());
                 }
                 await FSStorage.setString(kUsualAddressListKey, json.encode(tempAddressList));
                 Navigator.pop(context);
