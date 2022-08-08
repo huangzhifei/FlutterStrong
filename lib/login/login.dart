@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/services/events_bus.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       Fluttertoast.showToast(msg: "密码格式  不正确", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
     } else {
       var result = """{"username": "$_username", "password": "$_password"}""";
-      FSStorage.setString("userInfo", result);
+      FSStorage.setString(kUserInfoKey, result);
       Navigator.pop(context);
     }
   }

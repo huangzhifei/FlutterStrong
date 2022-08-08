@@ -9,10 +9,12 @@ import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/services/user_services.dart';
 import 'package:flutter_strong/uikit/fs_button.dart';
 import 'package:flutter_strong/uikit/fs_text.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddressEditPage extends StatefulWidget {
-  final AddressModel addressModel;
-  const AddressEditPage({Key? key, required this.addressModel}) : super(key: key);
+  // final AddressModel addressModel;
+  final Map<String, dynamic> arguments;
+  const AddressEditPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   State<AddressEditPage> createState() => _AddressEditPageState();
@@ -23,15 +25,16 @@ class _AddressEditPageState extends State<AddressEditPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  AddressModel addressModel = AddressModel(sId: "");
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    nameController.text = widget.addressModel.name;
-    phoneController.text = widget.addressModel.phone;
-    addressController.text = widget.addressModel.address;
+    addressModel = AddressModel.fromJson(widget.arguments);
+    nameController.text = addressModel.name;
+    phoneController.text = addressModel.phone;
+    addressController.text = addressModel.address;
   }
 
   @override
@@ -89,8 +92,8 @@ class _AddressEditPageState extends State<AddressEditPage> {
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.add_location),
-                    widget.addressModel.area.isNotEmpty
-                        ? Text(widget.addressModel.area)
+                    addressModel.area.isNotEmpty
+                        ? Text(addressModel.area)
                         : const Text(
                             "省/市/区",
                             style: TextStyle(color: Colors.black54),
@@ -110,7 +113,7 @@ class _AddressEditPageState extends State<AddressEditPage> {
                     ),
                   );
                   setState(() {
-                    widget.addressModel.area = "${result!.provinceName}/${result.cityName}/${result.areaName}";
+                    addressModel.area = "${result!.provinceName}/${result.cityName}/${result.areaName}";
                   });
                 },
               ),
@@ -142,17 +145,23 @@ class _AddressEditPageState extends State<AddressEditPage> {
                 if (isLogin) {
                   // 默认修改成功
                   // 获取收货地址列表
-                  List tempAddressList = json.decode(await FSStorage.getString(kUsualAddressListKey));
-                  for (var item in tempAddressList) {
-                    if (item["sId"] == widget.addressModel.sId) {
-                      item["name"] = widget.addressModel.name;
-                      item["phone"] = widget.addressModel.phone;
-                      item["area"] = widget.addressModel.area;
-                      item["address"] = widget.addressModel.address;
+                  var tempD = await FSStorage.getString(kUsualAddressListKey);
+                  if (tempD.isNotEmpty) {
+                    List tempAddressList = json.decode(tempD);
+                    for (var item in tempAddressList) {
+                      if (item["sId"] == addressModel.sId) {
+                        item["name"] = addressModel.name;
+                        item["phone"] = addressModel.phone;
+                        item["area"] = addressModel.area;
+                        item["address"] = addressModel.address;
+                      }
                     }
+                    await FSStorage.setString(kUsualAddressListKey, json.encode(tempAddressList));
+                    Navigator.pop(context);
+                  } else {
+                    Fluttertoast.showToast(msg: "修改失败", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
+                    Navigator.pop(context);
                   }
-                  await FSStorage.setString(kUsualAddressListKey, json.encode(tempAddressList));
-                  Navigator.pop(context);
                 }
               },
             ),

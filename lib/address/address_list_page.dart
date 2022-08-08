@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/address/address_edit_page.dart';
 import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/models/address_model.dart';
 import 'package:flutter_strong/services/events_bus.dart';
@@ -31,9 +32,10 @@ class _AddressListPageState extends State<AddressListPage> {
   }
 
   _getAddressList() async {
-    List tempData = json.decode(await FSStorage.getString(kUsualAddressListKey));
-    List <AddressModel> address = <AddressModel>[];
-    if (tempData.isNotEmpty) {
+    var tempD = await FSStorage.getString(kUsualAddressListKey);
+    List<AddressModel> address = <AddressModel>[];
+    if (tempD.isNotEmpty) {
+      List tempData = json.decode(tempD);
       for (var item in tempData) {
         address.add(AddressModel.fromJson(item));
       }
@@ -66,7 +68,6 @@ class _AddressListPageState extends State<AddressListPage> {
       List<AddressModel> tempData = <AddressModel>[];
       for (var item in _addressList) {
         if (item.sId == value.sId) {
-
         } else {
           tempData.add(item);
         }
@@ -172,6 +173,7 @@ class _AddressListPageState extends State<AddressListPage> {
                             "name": _addressList[index].name,
                             "phone": _addressList[index].phone,
                             "address": _addressList[index].address,
+                            "area": _addressList[index].area,
                           });
                         },
                       ),
@@ -193,17 +195,19 @@ class _AddressListPageState extends State<AddressListPage> {
               width: MediaQuery.of(context).size.width,
               height: ScreenAdaper.height(88),
               decoration: const BoxDecoration(
-                color: Colors.red,
-                border:Border(
-                  top: BorderSide(width: 1, color: Colors.black54),
-                )
-              ),
+                  color: Colors.red,
+                  border: Border(
+                    top: BorderSide(width: 1, color: Colors.black54),
+                  )),
               child: InkWell(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const <Widget>[
                     Icon(Icons.add, color: Colors.white),
-                    Text("增加收货地址", style: TextStyle(color: Colors.white),),
+                    Text(
+                      "增加收货地址",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ],
                 ),
                 onTap: () {

@@ -19,19 +19,21 @@ class SearchServices {
      */
     try {
       // 将 json 字符串转化
-      List searchListData = json.decode(await FSStorage.getString(kSearchListKey));
+      var tempD = await FSStorage.getString(kSearchListKey);
+      if (tempD.isNotEmpty) {
+        List searchListData = json.decode(tempD);
 
-      // 判断本地存储是否有数据：判断数组中是否有某个值
-      var hasKeywords = searchListData.any((element) {
-        return element == keywords;
-      });
+        // 判断本地存储是否有数据：判断数组中是否有某个值
+        var hasKeywords = searchListData.any((element) {
+          return element == keywords;
+        });
 
-      // 如果没有当前数据：本地存储的数据和当前数据拼接后重新写入
-      if (!hasKeywords) {
-        searchListData.add(keywords);
-        await FSStorage.setString(kSearchListKey, json.encode(searchListData));
+        // 如果没有当前数据：本地存储的数据和当前数据拼接后重新写入
+        if (!hasKeywords) {
+          searchListData.add(keywords);
+          await FSStorage.setString(kSearchListKey, json.encode(searchListData));
+        }
       }
-
     } catch(e) {
       print(e);
       // 直接把当前数据放在数组中写入到本地存储
@@ -45,7 +47,11 @@ class SearchServices {
   // 从本地缓存里取出历史搜索记录
   static getHistoryData() async {
     try {
-      List searchListData = json.decode(await FSStorage.getString(kSearchListKey));
+      var tempD = await FSStorage.getString(kSearchListKey);
+      List searchListData = [];
+      if (tempD.isNotEmpty) {
+        searchListData = json.decode(tempD);
+      }
       return searchListData;
     } catch (e) {
       print(e);
@@ -60,8 +66,13 @@ class SearchServices {
 
   // 长按删除某条历史记录
   static removeHistoryData(keywords) async {
-    List searchListData = json.decode(await FSStorage.getString(kSearchListKey));
-    searchListData.remove(keywords);
-    await FSStorage.setString(kSearchListKey, json.encode(searchListData));
+    var tempD = await FSStorage.getString(kSearchListKey);
+    if (tempD.isNotEmpty) {
+      List searchListData = json.decode(tempD);
+      searchListData.remove(keywords);
+      await FSStorage.setString(kSearchListKey, json.encode(searchListData));
+    } else {
+      print("removeHistoryData: 失败");
+    }
   }
 }

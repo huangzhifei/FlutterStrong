@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/address/address_add_page.dart';
 import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/models/address_model.dart';
 import 'dart:convert';
@@ -14,7 +13,6 @@ import 'package:flutter_strong/services/user_services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_strong/models/product_content_main_model.dart';
-import 'package:uuid/uuid.dart';
 
 class CheckOutPage extends StatefulWidget {
   const CheckOutPage({Key? key}) : super(key: key);
@@ -43,29 +41,28 @@ class _CheckOutPageState extends State<CheckOutPage> {
     bool isLogin = await UserServices.getUserState();
     if (isLogin) {
       // 获取收货地址列表
-      List tempAddressList = json.decode(await FSStorage.getString(kUsualAddressListKey));
-      if (tempAddressList.isNotEmpty) {
-        AddressModel addressData = AddressModel(sId: "");
-        for (var item in tempAddressList) {
-          AddressModel m = AddressModel.fromJson(item);
-          if (m.isDefaultAddress && m.sId.isNotEmpty) {
-            addressData = m;
-            break;
+      var tempD = await FSStorage.getString(kUsualAddressListKey);
+      if (tempD.isNotEmpty) {
+        List tempAddressList = json.decode(tempD);
+        if (tempAddressList.isNotEmpty) {
+          AddressModel addressData = AddressModel(sId: "");
+          for (var item in tempAddressList) {
+            AddressModel m = AddressModel.fromJson(item);
+            if (m.isDefaultAddress && m.sId.isNotEmpty) {
+              addressData = m;
+              break;
+            }
           }
+          setState(() {
+            // todo
+            _defaultAddress = addressData;
+          });
+        } else {
+          setState(() {
+            // todo
+            _defaultAddress = AddressModel(sId: "");
+          });
         }
-        // if (m.sId.isEmpty) {
-        //   m.sId = const Uuid().v4();
-        //   await FSStorage.setString(kDefaultAddressKey, json.encode(m));
-        // }
-        setState(() {
-          // todo
-          _defaultAddress = addressData;
-        });
-      } else {
-        setState(() {
-          // todo
-          _defaultAddress = AddressModel(sId: "");
-        });
       }
     } else {
       Fluttertoast.showToast(msg: "请先登陆", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
@@ -166,7 +163,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           ),
                           trailing: const Icon(Icons.navigate_next),
                           onTap: () {
-                            Navigator.pushNamed(context, "/addressAdd");
+                            Navigator.pushNamed(context, "/addressAdd", arguments: {"isDefaultAddress" : true});
                           },
                         )
                       : ListTile(

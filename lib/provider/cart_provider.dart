@@ -21,9 +21,12 @@ class CartProvider with ChangeNotifier {
     //
     _cartList = <ProductContentMainItem>[];
     try {
-      List tempData = json.decode(await FSStorage.getString(kCartListKey));
-      for (var item in tempData) {
-        _cartList.add(ProductContentMainItem.fromJson(item));
+      var tempD = await FSStorage.getString(kCartListKey);
+      if (tempD.isNotEmpty) {
+        List tempData = json.decode(tempD);
+        for (var item in tempData) {
+          _cartList.add(ProductContentMainItem.fromJson(item));
+        }
       }
     } catch (error) {
       _cartList = <ProductContentMainItem>[];

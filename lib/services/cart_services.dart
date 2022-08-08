@@ -6,13 +6,15 @@ import 'package:flutter_strong/models/product_content_main_model.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 
 class CartServices {
-
   // 购物车选中的数据
   static getCheckOutData() async {
     // 全部数据
     List cartListData = [];
     try {
-      cartListData = json.decode(await FSStorage.getString(kCartListKey));
+      var tempD = await FSStorage.getString(kCartListKey);
+      if (tempD.isNotEmpty) {
+        cartListData = json.decode(tempD);
+      }
     } catch (e) {
       print(e);
       cartListData = [];
@@ -32,15 +34,16 @@ class CartServices {
   static addCart(ProductContentMainItem item) async {
     // 先把对象转成 Map 类型的数据
     Map<String, dynamic> data = CartServices.formatCartData(item);
-
     // 本地缓存
     try {
-      List l = json.decode(await FSStorage.getString(kCartListKey));
+      var tempD = await FSStorage.getString(kCartListKey);
       List<ProductContentMainItem> cartListData = <ProductContentMainItem>[];
-      for (var value in l) {
-        cartListData.add(ProductContentMainItem.fromJson(value));
+      if (tempD.isNotEmpty) {
+        List l = json.decode(tempD);
+        for (var value in l) {
+          cartListData.add(ProductContentMainItem.fromJson(value));
+        }
       }
-
       // 是否有当前类型的数据
       bool hasData = cartListData.any((element) {
         // 相同 ID 的商品由于属性不一样，也要另外添加一行
@@ -52,7 +55,7 @@ class CartServices {
       });
 
       if (hasData) {
-        for (int i = 0; i < cartListData.length; i ++) {
+        for (int i = 0; i < cartListData.length; i++) {
           if (cartListData[i].sId == item.sId && cartListData[i].selectedAttr == item.selectedAttr) {
             cartListData[i].count = cartListData[i].count + 1;
           }

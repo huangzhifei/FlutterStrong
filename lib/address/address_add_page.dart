@@ -11,15 +11,16 @@ import 'package:flutter_strong/uikit/fs_text.dart';
 import 'package:uuid/uuid.dart';
 
 class AddressAddPage extends StatefulWidget {
-  final bool isDefaultAddress;
-  const AddressAddPage({Key? key, required this.isDefaultAddress}) : super(key: key);
+  final Map arguments;
+  const AddressAddPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   State<AddressAddPage> createState() => _AddressAddPageState();
 }
 
 class _AddressAddPageState extends State<AddressAddPage> {
-  late AddressModel addressModel = AddressModel(sId: const Uuid().v4(), isDefaultAddress: widget.isDefaultAddress);
+  late AddressModel addressModel =
+      AddressModel(sId: const Uuid().v4(), isDefaultAddress: widget.arguments["isDefaultAddress"]);
 
   // 页面销毁广播
   @override
@@ -101,7 +102,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
                     ),
                   );
                   setState(() {
-                    addressModel.area = "${result!.provinceName}/${result.cityName}/${result.areaName}";
+                    addressModel.area = "${result!.provinceName ?? ""}/${result!.cityName ?? ""}/${result!.areaName ?? ""}";
                   });
                 },
               ),
@@ -128,12 +129,13 @@ class _AddressAddPageState extends State<AddressAddPage> {
               tapEvent: () async {
                 print("点击了 增加 按钮");
                 // 获取收货地址列表
-                List tempAddressList = json.decode(await FSStorage.getString(kUsualAddressListKey));
-                if (tempAddressList.isEmpty) {
-                  tempAddressList = [];
+                var tempD = await FSStorage.getString(kUsualAddressListKey);
+                List tempAddressList = [];
+                if (tempD.isEmpty) {
+                  tempAddressList.add(addressModel.toJson());
+                } else {
+                  tempAddressList = json.decode(tempD);
                 }
-                // 插入新的
-                tempAddressList.add(json.encode(addressModel));
                 await FSStorage.setString(kUsualAddressListKey, json.encode(tempAddressList));
                 Navigator.pop(context);
               },

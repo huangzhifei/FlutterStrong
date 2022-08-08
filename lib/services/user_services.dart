@@ -8,10 +8,13 @@ class UserServices {
   static getUserInfo() async {
     List userInfoList = [];
     try {
-      var userTemp = json.decode(await FSStorage.getString(kUserInfoKey));
-      userTemp.forEach((key, value) {userInfoList.add(value);});
-      // print(userInfoMap);
-      // print(userInfoList);
+      var tempD = await FSStorage.getString(kUserInfoKey);
+      if (tempD.isNotEmpty) {
+        var userTemp = json.decode(tempD);
+        userTemp.forEach((key, value) {
+          userInfoList.add(value);
+        });
+      }
     } catch (e) {
       // print("error: $e");
       userInfoList = [];
@@ -32,6 +35,6 @@ class UserServices {
 
   // 退出登陆
   static loginOut() async {
-    FSStorage.remove("userInfo");
+    FSStorage.remove(kUserInfoKey);
   }
 }

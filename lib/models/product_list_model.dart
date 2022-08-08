@@ -7,7 +7,7 @@ class ProductListModel {
   ProductListModel.fromJson(Map<String, dynamic> json) {
     List responseResult = json["result"];
     result = <ProductListItemModel>[];
-    if (responseResult.isNotEmpty) {
+    if (responseResult != null && responseResult.isNotEmpty) {
       // result = <ProductListItemModel>[];
       for (var e in responseResult) {
         result.add(ProductListItemModel.fromJson(e));
