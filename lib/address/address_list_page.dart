@@ -211,7 +211,9 @@ class _AddressListPageState extends State<AddressListPage> {
                   ],
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, "/addressAdd");
+                  Navigator.pushNamed(context, "/addressAdd", arguments: {
+                    "isDefaultAddress": false,
+                  });
                 },
               ),
             ),

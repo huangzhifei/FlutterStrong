@@ -102,7 +102,10 @@ class _AddressAddPageState extends State<AddressAddPage> {
                     ),
                   );
                   setState(() {
-                    addressModel.area = "${result!.provinceName ?? ""}/${result!.cityName ?? ""}/${result!.areaName ?? ""}";
+                    if (result != null) {
+                      addressModel.area =
+                          "${result.provinceName}/${result.cityName}/${result.areaName}";
+                    }
                   });
                 },
               ),
