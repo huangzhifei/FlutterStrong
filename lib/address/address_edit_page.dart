@@ -72,6 +72,31 @@ class _AddressEditPageState extends State<AddressEditPage> {
     super.dispose();
   }
 
+  _saveChangeAddress() async {
+    bool isLogin = await UserServices.getUserState();
+    if (isLogin) {
+      // 默认修改成功
+      // 获取收货地址列表
+      var tempD = await FSStorage.getString(kUsualAddressListKey);
+      if (tempD.isNotEmpty) {
+        List tempAddressList = json.decode(tempD);
+        for (var item in tempAddressList) {
+          if (item["sId"] == addressModel.sId) {
+            item["name"] = addressModel.name;
+            item["phone"] = addressModel.phone;
+            item["area"] = addressModel.area;
+            item["address"] = addressModel.address;
+          }
+        }
+        await FSStorage.setString(kUsualAddressListKey, json.encode(tempAddressList));
+        Navigator.pop(context);
+      } else {
+        Fluttertoast.showToast(msg: "修改失败", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
+        Navigator.pop(context);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenAdaper.init(context);
@@ -79,6 +104,15 @@ class _AddressEditPageState extends State<AddressEditPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("修改收货地址"),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              _saveChangeAddress();
+            },
+            child: const Text("确定", style: TextStyle(color: Colors.white, fontSize: 18),),
+          ),
+          // const SizedBox(width: 1,),
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.all(10),
@@ -160,7 +194,6 @@ class _AddressEditPageState extends State<AddressEditPage> {
               maxLines: 4,
               height: 200,
               onChanged: (value) {
-                print("详细地址: $value");
                 addressModel.address = value;
               },
             ),
@@ -174,28 +207,7 @@ class _AddressEditPageState extends State<AddressEditPage> {
               buttonColor: Colors.red,
               buttonTitle: "修改",
               tapEvent: () async {
-                bool isLogin = await UserServices.getUserState();
-                if (isLogin) {
-                  // 默认修改成功
-                  // 获取收货地址列表
-                  var tempD = await FSStorage.getString(kUsualAddressListKey);
-                  if (tempD.isNotEmpty) {
-                    List tempAddressList = json.decode(tempD);
-                    for (var item in tempAddressList) {
-                      if (item["sId"] == addressModel.sId) {
-                        item["name"] = addressModel.name;
-                        item["phone"] = addressModel.phone;
-                        item["area"] = addressModel.area;
-                        item["address"] = addressModel.address;
-                      }
-                    }
-                    await FSStorage.setString(kUsualAddressListKey, json.encode(tempAddressList));
-                    Navigator.pop(context);
-                  } else {
-                    Fluttertoast.showToast(msg: "修改失败", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
-                    Navigator.pop(context);
-                  }
-                }
+                _saveChangeAddress();
               },
             ),
           ],

@@ -30,19 +30,6 @@ class _FSTextState extends State<FSText> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    if (widget.controller != null) {
-      // 不加这段代码，一输入光标就跑到最前面去
-      // widget.controller!.addListener(() {
-      //   print("addListener");
-      //   final String str = widget.controller!.text;
-      //   widget.controller!.value = widget.controller!.value.copyWith(
-      //     text: str,
-      //     selection: TextSelection(baseOffset: str.length, extentOffset: str.length),
-      //     composing: TextRange.empty,
-      //   );
-      // });
-    }
   }
 
   @override
@@ -62,7 +49,7 @@ class _FSTextState extends State<FSText> {
 
       // 文本框
       child: TextField(
-        autofocus: true,
+        // autofocus: true,
         controller: widget.controller,
         maxLines: widget.maxLines,
         obscureText: widget.password,
