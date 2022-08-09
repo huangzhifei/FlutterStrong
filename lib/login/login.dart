@@ -28,7 +28,8 @@ class _LoginPageState extends State<LoginPage> {
       Fluttertoast.showToast(msg: "密码格式  不正确", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
     } else {
       var result = """{"username": "$_username", "password": "$_password"}""";
-      FSStorage.setString(kUserInfoKey, result);
+      await FSStorage.setString(kUserInfoKey, result);
+      eventBus.fire(UserEvent("登陆成功..."));
       Navigator.pop(context);
     }
   }
@@ -37,11 +38,11 @@ class _LoginPageState extends State<LoginPage> {
   // 监听登陆页面销毁的事件
   @override
   void dispose() {
+    // 广播：登陆页面退出的时候，通知用户中心刷新页面
+    print("LoginPage 销毁");
     // TODO: implement dispose
     super.dispose();
 
-    // 广播：登陆页面退出的时候，通知用户中心刷新页面
-    eventBus.fire(UserEvent("登陆成功..."));
   }
 
   @override
@@ -71,9 +72,9 @@ class _LoginPageState extends State<LoginPage> {
             // 方框图
             Center(
               child: Container(
-                margin: const EdgeInsets.only(top: 30),
-                height: ScreenAdaper.height(160),
-                width: ScreenAdaper.width(160),
+                margin: const EdgeInsets.only(top: 10),
+                height: ScreenAdaper.height(80),
+                width: ScreenAdaper.width(80),
                 child: Image.network(
                   "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png",
                   fit: BoxFit.cover,
@@ -81,10 +82,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 10,
             ),
 
             FSText(
+              height: 44,
               text: "请输入用户名",
               onChanged: (value) {
                 _username = value;
@@ -96,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
             FSText(
+              height: 44,
               text: "请输入密码",
               onChanged: (value) {
                 _password = value;

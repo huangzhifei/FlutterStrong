@@ -25,11 +25,9 @@ class _AddressAddPageState extends State<AddressAddPage> {
   // 页面销毁广播
   @override
   void dispose() {
+    eventBus.fire(AddressEvent("增加地址成功"));
     // TODO: implement dispose
     super.dispose();
-
-    eventBus.fire(AddressEvent("增加地址成功"));
-    eventBus.fire(DefaultAddressEvent("改收货地址成功..."));
   }
 
   @override
@@ -48,6 +46,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
               height: 20,
             ),
             FSText(
+              height: 44,
               text: "收货人姓名",
               onChanged: (value) {
                 addressModel.name = value;
@@ -57,6 +56,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
               height: 10,
             ),
             FSText(
+              height: 44,
               text: "收货人电话",
               onChanged: (value) {
                 addressModel.phone = value;
@@ -68,7 +68,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
             // 弹出省市区
             Container(
               padding: const EdgeInsets.only(left: 5),
-              height: ScreenAdaper.height(68),
+              height: ScreenAdaper.height(44),
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(width: 1, color: Colors.black12),
@@ -112,7 +112,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
             ),
 
             const SizedBox(
-              height: 10,
+              height: 2,
             ),
             FSText(
               text: "详细地址",

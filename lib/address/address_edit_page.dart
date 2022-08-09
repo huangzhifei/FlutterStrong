@@ -21,10 +21,10 @@ class AddressEditPage extends StatefulWidget {
 }
 
 class _AddressEditPageState extends State<AddressEditPage> {
-  // 初始化的时候给编辑页面赋值
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  // // 初始化的时候给编辑页面赋值
+  late TextEditingController nameController;
+  late TextEditingController phoneController;
+  late TextEditingController addressController;
   AddressModel addressModel = AddressModel(sId: "");
 
   @override
@@ -32,9 +32,37 @@ class _AddressEditPageState extends State<AddressEditPage> {
     // TODO: implement initState
     super.initState();
     addressModel = AddressModel.fromJson(widget.arguments);
-    nameController.text = addressModel.name;
-    phoneController.text = addressModel.phone;
-    addressController.text = addressModel.address;
+    // 需要这样初始化，不然一输入光标就跑到最前面去，还会出现输入一个字符，会随机自动重复输入N个其他字符
+    nameController = TextEditingController.fromValue(TextEditingValue(
+      // 设置内容
+      text: addressModel.name,
+      selection: TextSelection.fromPosition(
+        TextPosition(
+          affinity: TextAffinity.downstream,
+          offset: addressModel.name.length,
+        ),
+      ),
+    ));
+    phoneController = TextEditingController.fromValue(TextEditingValue(
+      // 设置内容
+      text: addressModel.phone,
+      selection: TextSelection.fromPosition(
+        TextPosition(
+          affinity: TextAffinity.downstream,
+          offset: addressModel.phone.length,
+        ),
+      ),
+    ));
+    addressController = TextEditingController.fromValue(TextEditingValue(
+      // 设置内容
+      text: addressModel.address,
+      selection: TextSelection.fromPosition(
+        TextPosition(
+          affinity: TextAffinity.downstream,
+          offset: addressModel.address.length,
+        ),
+      ),
+    ));
   }
 
   @override
@@ -65,7 +93,7 @@ class _AddressEditPageState extends State<AddressEditPage> {
               controller: nameController,
               text: "收货人姓名",
               onChanged: (value) {
-                nameController.text = value;
+                addressModel.name = value;
               },
             ),
             const SizedBox(
@@ -75,7 +103,7 @@ class _AddressEditPageState extends State<AddressEditPage> {
               controller: phoneController,
               text: "收货人电话",
               onChanged: (value) {
-                phoneController.text = value;
+                addressModel.phone = value;
               },
             ),
 
@@ -132,7 +160,8 @@ class _AddressEditPageState extends State<AddressEditPage> {
               maxLines: 4,
               height: 200,
               onChanged: (value) {
-                addressController.text = value;
+                print("详细地址: $value");
+                addressModel.address = value;
               },
             ),
 

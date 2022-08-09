@@ -25,7 +25,7 @@ class _UserPageState extends State<UserPage> {
 
     // 监听登陆界面的广播事件
     eventBus.on<UserEvent>().listen((event) {
-      print("object " + event.content);
+      print("object " "${event.content}");
       // 重新获取用户信息，因为子页面返回不会触发 init
       _getUserInfo();
     });
@@ -55,9 +55,9 @@ class _UserPageState extends State<UserPage> {
             // 背景图片
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("images/beach.jpeg"),
-                  fit: BoxFit.cover,
-                )),
+              image: AssetImage("images/beach.jpeg"),
+              fit: BoxFit.cover,
+            )),
             child: Row(
               children: <Widget>[
                 // 头像
@@ -103,56 +103,55 @@ class _UserPageState extends State<UserPage> {
             title: Text("在线客服"),
           ),
           const Divider(),
-          _isLogin ? FSButton(
-            buttonTitle: "退出登陆",
-            buttonColor: Colors.red,
-            tapEvent: () {
-              UserServices.loginOut();
-              _getUserInfo();
-            },
-          ) : const Text(""),
+          _isLogin
+              ? Container(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: FSButton(
+                    buttonTitle: "退出登陆",
+                    buttonColor: Colors.red,
+                    tapEvent: () {
+                      UserServices.loginOut();
+                      _getUserInfo();
+                    },
+                  ))
+              : const Text(""),
         ],
       ),
     );
   }
 
   Widget _getWidgetOfLogin() {
-    return _isLogin ? Expanded(
-      flex: 1,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("用户名: ${_userInfo[0]}",
-            style: TextStyle(
-                color: Colors.black54,
-                fontSize: ScreenAdaper.fontSize(18),
-                fontWeight: FontWeight.bold
+    return _isLogin
+        ? Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "用户名: ${_userInfo[0]}",
+                  style: TextStyle(
+                      color: Colors.black54, fontSize: ScreenAdaper.fontSize(18), fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "普通会员",
+                  style: TextStyle(color: Colors.black54, fontSize: ScreenAdaper.fontSize(18)),
+                ),
+              ],
             ),
-          ),
-          Text(
-            "普通会员",
-            style: TextStyle(
-                color: Colors.black54,
-                fontSize: ScreenAdaper.fontSize(18)
+          )
+        : Expanded(
+            flex: 1,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, "/login");
+              },
+              child: Text(
+                "登陆/注册",
+                style:
+                    TextStyle(color: Colors.black54, fontSize: ScreenAdaper.fontSize(18), fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-        ],
-      ),
-    ) : Expanded(
-      flex: 1,
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, "/login");
-        },
-        child: Text("登陆/注册",
-          style: TextStyle(
-              color: Colors.black54,
-              fontSize: ScreenAdaper.fontSize(18),
-              fontWeight: FontWeight.bold
-          ),
-        ),
-      ),
-    );
+          );
   }
 }
