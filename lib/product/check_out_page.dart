@@ -139,6 +139,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
     _checkOutProvider = Provider.of<CheckOutProvider>(context);
     var _cartProvider = Provider.of<CartProvider>(context);
 
+    payCallback(bool payState) async {
+      if (payState) {
+        // 删除购物车选中的商品数据
+        await CheckOutServices.removeUnSelectedCartItem();
+
+        // 调用 CartProvider 更新购物车数据
+        _cartProvider.updateCartList();
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("结算"),
@@ -250,14 +260,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               bool isLogin = await UserServices.getUserState();
                               // 有登陆态，就假设下单会成功
                               if (isLogin) {
-                                // 删除购物车选中的商品数据
-                                await CheckOutServices.removeUnSelectedCartItem();
-
-                                // 调用 CartProvider 更新购物车数据
-                                _cartProvider.updateCartList();
 
                                 // 跳转到支付页面
-                                Navigator.pushNamed(context, "/pay");
+                                Navigator.pushNamed(context, "/pay", arguments: {
+                                  "callback": payCallback,
+                                });
                               }
                             } else {
                               Fluttertoast.showToast(

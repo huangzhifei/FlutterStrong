@@ -70,16 +70,27 @@ class _AddressListPageState extends State<AddressListPage> {
   }
 
   // 删除框
-  _delAddress(AddressModel value) async {
+  _delAddress(var sId) async {
     // 本地
     bool isLogin = await UserServices.getUserState();
     if (isLogin) {
       // 删掉本地的某条记录
       List<AddressModel> tempData = <AddressModel>[];
+      bool isDelDefaultAddress = false;
       for (var item in _addressList) {
-        if (item.sId == value.sId) {
+        if (item.sId == sId) {
+          // 如果删除的是默认地址，需要把默认地址给其他地址
+          if (item.isDefaultAddress == true) {
+            isDelDefaultAddress = true;
+          }
         } else {
           tempData.add(item);
+        }
+      }
+      if (isDelDefaultAddress) {
+        for (var item in tempData) {
+          item.isDefaultAddress = true;
+          break;
         }
       }
       await FSStorage.setString(kUsualAddressListKey, json.encode(tempData));
@@ -87,10 +98,11 @@ class _AddressListPageState extends State<AddressListPage> {
       _getAddressList();
     } else {
       // 弹出登陆界面
+      Navigator.pushNamed(context, "/login");
     }
   }
 
-  _showDelAlertDialog(value) async {
+  _showDelAlertDialog(sId) async {
     await showDialog(
         // 表示点击灰色背景的时候是否消失弹框
         barrierDismissible: false,
@@ -109,7 +121,7 @@ class _AddressListPageState extends State<AddressListPage> {
               TextButton(
                 child: const Text("确定"),
                 onPressed: () async {
-                  _delAddress(value);
+                  _delAddress(sId);
                   Navigator.pop(context);
                 },
               ),
@@ -122,8 +134,8 @@ class _AddressListPageState extends State<AddressListPage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     eventBus.fire(DefaultAddressEvent("修改收货地址成功..."));
+    super.dispose();
   }
 
   @override

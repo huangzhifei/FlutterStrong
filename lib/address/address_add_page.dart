@@ -25,6 +25,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
   // 页面销毁广播
   @override
   void dispose() {
+    eventBus.fire(DefaultAddressEvent("增加地址成功"));
     eventBus.fire(AddressEvent("增加地址成功"));
     // TODO: implement dispose
     super.dispose();

@@ -25,7 +25,7 @@ final routes = {
   '/addressAdd': (context,{arguments}) => AddressAddPage(arguments: arguments), // 收货地址添加
   '/addressEdit': (context, {arguments}) => AddressEditPage(arguments: arguments), // 编辑地址
   '/addressList': (context) => const AddressListPage(), // 收货地址列表
-  '/pay': (context) => const PayPage(), // 支付
+  '/pay': (context, {arguments}) => PayPage(arguments: arguments), // 支付
   '/order': (context) => const OrderPage(), // 定单
   '/orderInfo': (context) => const OrderInfoPage(), // 定单详情
 };
