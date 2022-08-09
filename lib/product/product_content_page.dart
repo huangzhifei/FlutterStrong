@@ -104,8 +104,10 @@ class _ProductContentPageState extends State<ProductContentPage> {
                           Text("搜索"),
                         ],
                       ),
-                      onTap: () {
+                      onTap: () async {
                         print("点击搜索");
+                        // 在 导航栏里面使用 PopupMenuItem 来跳转，必须要延迟，或者使用 PopupMenuButton
+                        await Future.delayed(const Duration(milliseconds: 1));
                         Navigator.pushNamed(context, "/search");
                       },
                     ),
