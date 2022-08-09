@@ -9,25 +9,38 @@ import 'package:flutter_strong/product/order_info_page.dart';
 import 'package:flutter_strong/product/order_page.dart';
 import 'package:flutter_strong/product/pay_page.dart';
 import 'package:flutter_strong/product/product_content_page.dart';
-import 'package:flutter_strong/product/product_list.dart';
+import 'package:flutter_strong/product/product_list_page.dart';
 import 'package:flutter_strong/search/search_page.dart';
 import 'package:flutter_strong/tabs/tab_bars.dart';
+
+/*
+ * 主要的 Widget 页面
+ * ProductContentRatePage() 产品内容：评价页面
+ * ProductContentMainPage() 产品内容：商品页面
+ * ProductContentDetailPage() 产品内容：详情页面
+ * ProductContentCarNumPage() 产品购买时的数量页面（左减、右增）
+ * UserPage() 我的页面
+ * HomePageWidget() 首页
+ * CategoryPage() 分类页面
+ * CartItem() 购物车里一条记录页面
+ * CartNum() 购物车里一条记录右边的数量页面（左减、右增）
+**/
 
 //配置路由
 final routes = {
   '/': (context) => const TabBars(),// 主 tab
   '/search': (context) => const SearchPage(), // 搜索
   '/login': (context) => const LoginPage(),// 登陆
-  '/cart': (context, {arguments}) => CartPage(arguments: arguments),
+  '/cart': (context, {arguments}) => CartPage(arguments: arguments),  // 购物车
   '/productList': (context, {arguments}) => ProductListPage(arguments: arguments), // 产品列表
-  '/productContent': (context, {arguments}) => ProductContentPage(arguments: arguments),// 产品详情
-  '/checkOut': (context) => const CheckOutPage(), // 结算
+  '/productContent': (context, {arguments}) => ProductContentPage(arguments: arguments),// 产品内容壳页面
+  '/checkOut': (context) => const CheckOutPage(), // 结算页
   '/addressAdd': (context,{arguments}) => AddressAddPage(arguments: arguments), // 收货地址添加
   '/addressEdit': (context, {arguments}) => AddressEditPage(arguments: arguments), // 编辑地址
   '/addressList': (context) => const AddressListPage(), // 收货地址列表
-  '/pay': (context, {arguments}) => PayPage(arguments: arguments), // 支付
+  '/pay': (context, {arguments}) => PayPage(arguments: arguments), // 支付（立即下单）
   '/order': (context) => const OrderPage(), // 定单
-  '/orderInfo': (context) => const OrderInfoPage(), // 定单详情
+  '/orderInfo': (context) => const OrderInfoPage(), // 定单详情页
 };
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {

@@ -289,6 +289,7 @@ class _ProductContentMainPageState extends State<ProductContentMainPage> with Au
                               buttonColor: const Color.fromRGBO(253, 165, 0, 0.9),
                               tapEvent: () {
                                 Navigator.pop(context);
+                                Navigator.pushNamed(context, "/checkOut");
                               },
                             ),
                           ),

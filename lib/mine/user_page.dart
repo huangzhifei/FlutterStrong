@@ -22,7 +22,6 @@ class _UserPageState extends State<UserPage> {
     super.initState();
 
     _getUserInfo();
-
     // 监听登陆界面的广播事件
     eventBus.on<UserEvent>().listen((event) {
       print("object " "${event.content}");
@@ -67,8 +66,8 @@ class _UserPageState extends State<UserPage> {
                     child: Image.network(
                       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png",
                       fit: BoxFit.cover,
-                      width: ScreenAdaper.width(100),
-                      height: ScreenAdaper.height(86),
+                      width: ScreenAdaper.width(90),
+                      height: ScreenAdaper.height(78),
                     ),
                   ),
                 ),
@@ -84,23 +83,40 @@ class _UserPageState extends State<UserPage> {
             },
           ),
           const Divider(),
-          const ListTile(
-            leading: Icon(Icons.local_car_wash, color: Colors.orange),
-            title: Text("待收货"),
+          ListTile(
+            leading: const Icon(Icons.payment, color: Colors.green),
+            title: const Text("待付款"),
+            onTap: () {
+              Navigator.pushNamed(context, "/order");
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.local_car_wash, color: Colors.orange),
+            title: const Text("待收货"),
+            onTap: () {
+              Navigator.pushNamed(context, "/order");
+            },
           ),
           Container(
             width: double.infinity,
             height: 10,
             color: const Color.fromRGBO(242, 242, 242, 0.9),
           ),
-          const ListTile(
-            leading: Icon(Icons.favorite, color: Colors.lightGreen),
-            title: Text("我的收藏"),
+          ListTile(
+            leading: const Icon(Icons.favorite, color: Colors.lightGreen),
+            title: const Text("我的收藏"),
+            onTap: () {
+
+            },
           ),
           const Divider(),
-          const ListTile(
-            leading: Icon(Icons.people, color: Colors.black54),
-            title: Text("在线客服"),
+          ListTile(
+            leading: const Icon(Icons.people, color: Colors.black54),
+            title: const Text("在线客服"),
+            onTap: () {
+
+            },
           ),
           const Divider(),
           _isLogin
