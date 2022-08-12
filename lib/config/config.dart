@@ -1,6 +1,6 @@
-
+const String kOrderListKey = "orderListKey";
 const String kUsualAddressListKey = "usualAddressList";
-const String kDefaultAddressKey = "DefaultAddress";
+const String kDefaultAddressKey = "defaultAddress";
 const String kCartListKey = "cartList";
 const String kUserInfoKey = "userInfo";
 const String kSearchListKey = "searchList";

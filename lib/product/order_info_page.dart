@@ -2,13 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 
 class OrderInfoPage extends StatefulWidget {
-  const OrderInfoPage({Key? key}) : super(key: key);
+  final Map arguments;
+  const OrderInfoPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
   State<OrderInfoPage> createState() => _OrderInfoPageState();
 }
 
 class _OrderInfoPageState extends State<OrderInfoPage> {
+
+  late String sId = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    sId = widget.arguments["sId"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +68,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                   children: <Widget>[
                     Container(
                       margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      width: ScreenAdaper.width(120),
+                      width: ScreenAdaper.width(80),
                       child: Image.network(
                         "https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/topnav/newbaike-889054f349.png",
                         fit: BoxFit.cover,
@@ -91,7 +102,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                   children: <Widget>[
                     Container(
                       margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      width: ScreenAdaper.width(120),
+                      width: ScreenAdaper.width(80),
                       child: Image.network(
                         "https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/topnav/newbaike-889054f349.png",
                         fit: BoxFit.cover,

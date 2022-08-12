@@ -3,6 +3,7 @@ import 'package:flutter_strong/services/events_bus.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/services/user_services.dart';
 import 'package:flutter_strong/uikit/fs_button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -79,7 +80,9 @@ class _UserPageState extends State<UserPage> {
             leading: const Icon(Icons.assessment, color: Colors.red),
             title: const Text("全部订单"),
             onTap: () {
-              Navigator.pushNamed(context, "/order");
+              Navigator.pushNamed(context, "/order", arguments: {
+                "state": 0
+              });
             },
           ),
           const Divider(),
@@ -87,7 +90,10 @@ class _UserPageState extends State<UserPage> {
             leading: const Icon(Icons.payment, color: Colors.green),
             title: const Text("待付款"),
             onTap: () {
-              Navigator.pushNamed(context, "/order");
+              Navigator.pushNamed(context, "/orderListPage", arguments: {
+                "state": 1,
+                "title": "待付款",
+              });
             },
           ),
           const Divider(),
@@ -95,7 +101,10 @@ class _UserPageState extends State<UserPage> {
             leading: const Icon(Icons.local_car_wash, color: Colors.orange),
             title: const Text("待收货"),
             onTap: () {
-              Navigator.pushNamed(context, "/order");
+              Navigator.pushNamed(context, "/orderListPage", arguments: {
+                "state": 2,
+                "title": "待收货",
+              });
             },
           ),
           Container(
@@ -107,7 +116,8 @@ class _UserPageState extends State<UserPage> {
             leading: const Icon(Icons.favorite, color: Colors.lightGreen),
             title: const Text("我的收藏"),
             onTap: () {
-
+              // Navigator.pushNamed(context, "/orderInfo");
+              Fluttertoast.showToast(msg: "暂未实现", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
             },
           ),
           const Divider(),
@@ -115,7 +125,7 @@ class _UserPageState extends State<UserPage> {
             leading: const Icon(Icons.people, color: Colors.black54),
             title: const Text("在线客服"),
             onTap: () {
-
+              Fluttertoast.showToast(msg: "暂未实现", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER);
             },
           ),
           const Divider(),

@@ -12,6 +12,7 @@ import 'package:flutter_strong/product/product_content_page.dart';
 import 'package:flutter_strong/product/product_list_page.dart';
 import 'package:flutter_strong/search/search_page.dart';
 import 'package:flutter_strong/tabs/tab_bars.dart';
+import 'package:flutter_strong/product/order_list_page.dart';
 
 /*
  * 主要的 Widget 页面
@@ -39,8 +40,9 @@ final routes = {
   '/addressEdit': (context, {arguments}) => AddressEditPage(arguments: arguments), // 编辑地址
   '/addressList': (context) => const AddressListPage(), // 收货地址列表
   '/pay': (context, {arguments}) => PayPage(arguments: arguments), // 支付（立即下单）
-  '/order': (context) => const OrderPage(), // 定单
-  '/orderInfo': (context) => const OrderInfoPage(), // 定单详情页
+  '/order': (context, {arguments}) => OrderPage(arguments: arguments), // 定单
+  '/orderInfo': (context, {arguments}) => OrderInfoPage(arguments: arguments,), // 定单详情页
+  '/orderListPage': (context, {arguments}) => OrderListPage(arguments: arguments), // 订单分类列表（已付款、已经收货等）
 };
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
