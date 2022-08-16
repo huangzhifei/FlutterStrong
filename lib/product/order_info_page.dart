@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_strong/models/order_model.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 
 class OrderInfoPage extends StatefulWidget {
@@ -11,13 +12,44 @@ class OrderInfoPage extends StatefulWidget {
 
 class _OrderInfoPageState extends State<OrderInfoPage> {
 
-  late String sId = "";
+  late OrderResult _orderRes;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    sId = widget.arguments["sId"];
+    _orderRes = OrderResult.fromJson(widget.arguments["model"]);
+  }
+
+  // 订单商品列表组件
+  List<Widget> _orderItemWidget(List<OrderItem> orderItems) {
+    List<Widget> tempList = [];
+    for (var item in orderItems) {
+      tempList.add(Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 5,
+          ),
+          ListTile(
+            leading: SizedBox(
+              width: ScreenAdaper.width(120),
+              // height: ScreenAdaper.height(120),
+              child: Image.network(
+                item.productImg,
+                fit: BoxFit.cover,
+              ),
+            ),
+            title: Text(item.productTitle),
+            subtitle: Text("价格: ${item.productPrice}"),
+            trailing: Text("x${item.productCount}"),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+        ],
+      ));
+    }
+    return tempList;
   }
 
   @override
@@ -34,103 +66,33 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
             child: Column(
               children: <Widget>[
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 ListTile(
                   leading: const Icon(Icons.add_location),
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text("张三 13590483623"),
-                      SizedBox(height: 10),
-                      Text("北京市海淀区 西二旗"),
+                    children: <Widget>[
+                      Text("${_orderRes.name} ${_orderRes.phone}"),
+                      const SizedBox(height: 10),
+                      Text(_orderRes.address),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
               ],
             ),
           ),
 
           const SizedBox(
-            height: 16,
+            height: 8,
           ),
 
           // 列表
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      width: ScreenAdaper.width(80),
-                      child: Image.network(
-                        "https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/topnav/newbaike-889054f349.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
-                            Text(
-                              "四季沐歌 (MICOE) 洗衣机水龙头 洗衣机水嘴 单冷快开铜材质龙头",
-                              maxLines: 2,
-                              style: TextStyle(color: Colors.black54),
-                            ),
-                            Text("水龙头 洗衣机", maxLines: 2, style: TextStyle(color: Colors.black54)),
-                            ListTile(
-                              leading: Text("￥100", style: TextStyle(color: Colors.red)),
-                              trailing: Text("x2"),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      width: ScreenAdaper.width(80),
-                      child: Image.network(
-                        "https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/topnav/newbaike-889054f349.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
-                            Text("四季沐歌 洗衣机水龙头 洗衣机水嘴 单冷快开铜材质龙头",
-                                maxLines: 2, style: TextStyle(color: Colors.black54)),
-                            Text("水龙头 洗衣机", maxLines: 2, style: TextStyle(color: Colors.black54)),
-                            ListTile(
-                              leading: Text("￥100", style: TextStyle(color: Colors.red)),
-                              trailing: Text("x2"),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          Column(
+            children: _orderItemWidget(_orderRes.orderItem),
           ),
 
           // 详情信息
@@ -141,16 +103,16 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
               children: <Widget>[
                 ListTile(
                   title: Row(
-                    children: const <Widget>[
-                      Text("订单编号", style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text("12345432123"),
+                    children: <Widget>[
+                      const Text("订单编号：", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(_orderRes.sId),
                     ],
                   ),
                 ),
                 ListTile(
                   title: Row(
                     children: const <Widget>[
-                      Text("下单日期", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("下单日期：", style: TextStyle(fontWeight: FontWeight.bold),),
                       Text("2022-07-27"),
                     ],
                   ),
@@ -158,7 +120,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 ListTile(
                   title: Row(
                     children: const <Widget>[
-                      Text("支付方式", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("支付方式：", style: TextStyle(fontWeight: FontWeight.bold),),
                       Text("微信支付"),
                     ],
                   ),
@@ -166,7 +128,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 ListTile(
                   title: Row(
                     children: const <Widget>[
-                      Text("配送方式: ", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("配送方式：", style: TextStyle(fontWeight: FontWeight.bold),),
                       Text("顺丰"),
                     ],
                   ),
@@ -184,9 +146,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
               children: <Widget>[
                 ListTile(
                   title: Row(
-                    children: const <Widget>[
-                      Text("总金额：", style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text("￥414元", style: TextStyle(color: Colors.red),),
+                    children: <Widget>[
+                      const Text("总金额：", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("￥${_orderRes.allPrice}", style: const TextStyle(color: Colors.red),),
                     ],
                   ),
                 ),

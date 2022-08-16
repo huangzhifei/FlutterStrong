@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/services/events_bus.dart';
+import 'package:flutter_strong/services/order_services.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/services/user_services.dart';
 import 'package:flutter_strong/uikit/fs_button.dart';
@@ -28,6 +29,8 @@ class _UserPageState extends State<UserPage> {
       print("object " "${event.content}");
       // 重新获取用户信息，因为子页面返回不会触发 init
       _getUserInfo();
+      // 每次重新登陆都重新生成一批数据
+      OrderServices.generateOrderListData();
     });
   }
 
@@ -81,7 +84,7 @@ class _UserPageState extends State<UserPage> {
             title: const Text("全部订单"),
             onTap: () {
               Navigator.pushNamed(context, "/order", arguments: {
-                "state": 0
+                "type": 0
               });
             },
           ),
@@ -91,7 +94,7 @@ class _UserPageState extends State<UserPage> {
             title: const Text("待付款"),
             onTap: () {
               Navigator.pushNamed(context, "/orderListPage", arguments: {
-                "state": 1,
+                "type": 1,
                 "title": "待付款",
               });
             },
@@ -102,7 +105,7 @@ class _UserPageState extends State<UserPage> {
             title: const Text("待收货"),
             onTap: () {
               Navigator.pushNamed(context, "/orderListPage", arguments: {
-                "state": 2,
+                "type": 2,
                 "title": "待收货",
               });
             },

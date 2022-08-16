@@ -1,28 +1,24 @@
+import 'package:city_pickers/city_pickers.dart';
 
 class OrderModel {
-  bool success = true;
-  String message = "";
-  List<OrderResult> result = [];
-
-  OrderModel({required this.success, required this.message, required this.result});
-
+  List<OrderResult>? result = [];
+  OrderModel({this.result});
   OrderModel.fromJson(Map<String, dynamic> json) {
-    success = json["success"];
-    message = json["message"];
     if (json["result"] != null) {
       result = <OrderResult>[];
       for (var item in json["result"]) {
-        result.add(item);
+        result!.add(OrderResult.fromJson(item));
       }
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data["success"] = success;
-    data["message"] = message;
-    if (result.isNotEmpty) {
-      data["result"] = result.map((e) => e.toJson()).toList();
+    if (result!.isNotEmpty) {
+      data["result"] = result!.map((e) {
+        // print(e.toJson());
+        return e.toJson();
+      }).toList();
     }
     return data;
   }
@@ -38,6 +34,8 @@ class OrderResult {
   late int payStatus;
   late int orderStatus;
   late List<OrderItem> orderItem;
+
+  OrderResult.fromWithNull();
 
   OrderResult(
       {required this.sId,
@@ -93,6 +91,7 @@ class OrderItem {
   late String selectedAttr;
   late int addTime;
 
+  OrderItem.fromWithNull();
   OrderItem(
       {required this.sId,
       required this.orderId,

@@ -41,7 +41,7 @@ final routes = {
   '/addressList': (context) => const AddressListPage(), // 收货地址列表
   '/pay': (context, {arguments}) => PayPage(arguments: arguments), // 支付（立即下单）
   '/order': (context, {arguments}) => OrderPage(arguments: arguments), // 定单
-  '/orderInfo': (context, {arguments}) => OrderInfoPage(arguments: arguments,), // 定单详情页
+  '/orderInfo': (context, {arguments}) => OrderInfoPage(arguments: arguments), // 定单详情页
   '/orderListPage': (context, {arguments}) => OrderListPage(arguments: arguments), // 订单分类列表（已付款、已经收货等）
 };
 

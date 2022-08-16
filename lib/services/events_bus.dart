@@ -25,3 +25,9 @@ class DefaultAddressEvent {
   String content;
   DefaultAddressEvent(this.content);
 }
+
+// 我的订单列表广播
+class OrderListEvent {
+  String content;
+  OrderListEvent(this.content);
+}
