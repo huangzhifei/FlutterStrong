@@ -11,7 +11,6 @@ class OrderInfoPage extends StatefulWidget {
 }
 
 class _OrderInfoPageState extends State<OrderInfoPage> {
-
   late OrderResult _orderRes;
 
   @override
@@ -50,6 +49,22 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       ));
     }
     return tempList;
+  }
+
+  // 如何解决英文单词被整体截断呢？
+  // 将单词的每个字符切割开，插入宽度0的占位字符，打破系统默认的机制，这样就可以以字符为单位省略了
+  // 需要注意。这种方式相当于修改了文本的内容，一般文本最大一行显示可以用，如果文本支持2行以及以上的显示的话，
+  // 将会导致换行不再按照字符进行而按照单词进行
+  String toCharacterBreakStr(String word) {
+    if (word.isEmpty) {
+      return word;
+    }
+    String breakWord = '';
+    for (var element in word.runes) {
+      breakWord += String.fromCharCode(element);
+      breakWord += '\u200B';
+    }
+    return breakWord;
   }
 
   @override
@@ -104,15 +119,28 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 ListTile(
                   title: Row(
                     children: <Widget>[
-                      const Text("订单编号：", style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text(_orderRes.sId),
+                      const Text(
+                        "订单编号：",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: Text(
+                          toCharacterBreakStr(_orderRes.sId),
+                          // softWrap: true,
+                          // style: const TextStyle(backgroundColor: Colors.green),
+                        ),
+                      ),
+                      // Expanded(child: const Text("123456789-987654321-3456789-1234-3445568992874-238484884", maxLines: 2,),)
                     ],
                   ),
                 ),
                 ListTile(
                   title: Row(
                     children: const <Widget>[
-                      Text("下单日期：", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(
+                        "下单日期：",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       Text("2022-07-27"),
                     ],
                   ),
@@ -120,7 +148,10 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 ListTile(
                   title: Row(
                     children: const <Widget>[
-                      Text("支付方式：", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(
+                        "支付方式：",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       Text("微信支付"),
                     ],
                   ),
@@ -128,7 +159,10 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 ListTile(
                   title: Row(
                     children: const <Widget>[
-                      Text("配送方式：", style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(
+                        "配送方式：",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       Text("顺丰"),
                     ],
                   ),
@@ -137,7 +171,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
             ),
           ),
 
-          const SizedBox(height: 16,),
+          const SizedBox(
+            height: 16,
+          ),
 
           Container(
             color: Colors.white,
@@ -147,8 +183,14 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 ListTile(
                   title: Row(
                     children: <Widget>[
-                      const Text("总金额：", style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text("￥${_orderRes.allPrice}", style: const TextStyle(color: Colors.red),),
+                      const Text(
+                        "总金额：",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "￥${_orderRes.allPrice}",
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ],
                   ),
                 ),
