@@ -4,6 +4,8 @@ import 'package:flutter_strong/services/events_bus.dart';
 import 'package:flutter_strong/services/order_services.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/services/user_services.dart';
+import 'package:flutter_strong/tool/fs_tool.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class OrderListPage extends StatefulWidget {
   final Map? arguments;
@@ -64,7 +66,6 @@ class _OrderListPageState extends State<OrderListPage> {
           ListTile(
             leading: SizedBox(
               width: ScreenAdaper.width(120),
-              // height: ScreenAdaper.height(120),
               child: Image.network(
                 item.productImg,
                 fit: BoxFit.cover,
@@ -100,7 +101,7 @@ class _OrderListPageState extends State<OrderListPage> {
                 children: [
                   ListTile(
                     title: Text(
-                      "订单编号: ${value.sId}",
+                      "订单编号: " + FSTool.toCharacterBreakStr(value.sId),
                       style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -122,7 +123,14 @@ class _OrderListPageState extends State<OrderListPage> {
                         "申请售后",
                         style: TextStyle(color: Colors.red),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Fluttertoast.showToast(
+                          msg: "暂未实现",
+                          toastLength: Toast.LENGTH_LONG,
+                          fontSize: 18.0,
+                          gravity: ToastGravity.CENTER,
+                        );
+                      },
                     ),
                   ),
                 ],

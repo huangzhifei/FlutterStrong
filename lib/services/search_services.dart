@@ -33,6 +33,12 @@ class SearchServices {
           searchListData.add(keywords);
           await FSStorage.setString(kSearchListKey, json.encode(searchListData));
         }
+      } else {
+        // 直接把当前数据放在数组中写入到本地存储
+        List tempList = [];
+        tempList.add(keywords);
+        // 将数组转化为字符串
+        await FSStorage.setString(kSearchListKey, json.encode(tempList));
       }
     } catch(e) {
       print(e);
@@ -61,7 +67,7 @@ class SearchServices {
 
   // 清空历史记录
   static clearHistoryList() async {
-    await FSStorage.remove("searchList");
+    await FSStorage.remove(kSearchListKey);
   }
 
   // 长按删除某条历史记录

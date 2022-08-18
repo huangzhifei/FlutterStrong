@@ -29,8 +29,8 @@ class _SearchPageState extends State<SearchPage> {
               onPressed: () async {
                 // 异步，长按删除某条历史记录
                 await SearchServices.removeHistoryData(keywords);
-
                 Navigator.pop(context, "OK");
+                await _getHistoryListData();
               },
             ),
           ],
@@ -60,14 +60,17 @@ class _SearchPageState extends State<SearchPage> {
             ),
             child: Text(e),
           ),
-          onTap: () {
+          onTap: () async {
             _keywords = e;
+
             // 保持历史搜索记录
-            SearchServices.setHistoryData(_keywords);
+            await SearchServices.setHistoryData(_keywords);
 
             // 跳转到商品列表页面，传入搜索值
             // 商品列表直接返回到首页，而不是搜索页面
             Navigator.pushNamed(context, "/productList", arguments: {"keywords": _keywords});
+
+            await _getHistoryListData();
           },
         );
       }).toList();
@@ -110,10 +113,11 @@ class _SearchPageState extends State<SearchPage> {
                     onLongPress: () {
                       _showAlertDialog(value);
                     },
-                    onTap: () {
+                    onTap: () async {
                       _keywords = value;
-                      SearchServices.setHistoryData(_keywords);
+                      await SearchServices.setHistoryData(_keywords);
                       Navigator.pushNamed(context, "/productList", arguments: {"keywords": _keywords});
+                      await _getHistoryListData();
                     },
                   ),
                   const Divider(),
@@ -142,11 +146,11 @@ class _SearchPageState extends State<SearchPage> {
                     children: const <Widget>[Icon(Icons.delete), Text("清空历史记录")],
                   ),
                 ),
-                onTap: () {
+                onTap: () async {
                   // 清空本地缓存历史记录
-                  SearchServices.clearHistoryList();
+                  await SearchServices.clearHistoryList();
                   // 重新渲染页面
-                  _getHistoryListData();
+                  await _getHistoryListData();
                 },
               ),
             ],
@@ -179,8 +183,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
           padding: const EdgeInsets.only(bottom: 8),
           child: TextField(
-            // 进来默认选中，键盘弹出
-            autofocus: true,
+            // autofocus: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 // 去掉 TextField 边框
@@ -203,18 +206,25 @@ class _SearchPageState extends State<SearchPage> {
               // width: ScreenAdaper.width(80),
               child: Row(
                 children: const <Widget>[
-                  Text("搜索", style: TextStyle(fontSize: 16),),
-                  SizedBox(width: 15,),
+                  Text(
+                    "搜索",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
                 ],
               ),
             ),
-            onTap: () {
-              // 保持历史搜索记录
-              SearchServices.setHistoryData(_keywords);
+            onTap: () async {
+              // 保存历史搜索记录
+              await SearchServices.setHistoryData(_keywords);
 
               // 跳转到商品列表页面，传入搜索
               // 商品列表直接返回到首页，而不是搜索页面
               Navigator.pushNamed(context, "/productList", arguments: {"keywords": _keywords});
+
+              await _getHistoryListData();
             },
           ),
         ],

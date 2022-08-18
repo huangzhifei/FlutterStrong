@@ -1,4 +1,8 @@
 
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
+
 class ProductListModel {
   late List<ProductListItemModel> result;
 
@@ -31,6 +35,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item1.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item1.saleCount = Random().nextInt(10000) + 1;
       data.add(item1);
     }
 
@@ -45,6 +50,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item2.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item2.saleCount = Random().nextInt(10000) + 1;
       data.add(item2);
     }
 
@@ -59,6 +65,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item3.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item3.saleCount = Random().nextInt(10000) + 1;
       data.add(item3);
     }
 
@@ -73,6 +80,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item4.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item4.saleCount = Random().nextInt(10000) + 1;
       data.add(item4);
     }
 
@@ -87,6 +95,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item5.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item5.saleCount = Random().nextInt(10000) + 1;
       data.add(item5);
     }
 
@@ -101,6 +110,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item6.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item6.saleCount = Random().nextInt(10000) + 1;
       data.add(item6);
     }
 
@@ -115,6 +125,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item7.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item7.saleCount = Random().nextInt(10000) + 1;
       data.add(item7);
     }
 
@@ -129,6 +140,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item8.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item8.saleCount = Random().nextInt(10000) + 1;
       data.add(item8);
     }
 
@@ -143,6 +155,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item9.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item9.saleCount = Random().nextInt(10000) + 1;
       data.add(item9);
     }
 
@@ -157,6 +170,7 @@ class ProductListModel {
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
       item10.sPic =
       "https://cdn-fusionwork.sf-express.com/v1.2/AUTH_FS-BASE-SERVER-PRD-DR/sfosspublic001/mics/2022/04/02/8ae2321350f452505150b4e178859168.png";
+      item10.saleCount = Random().nextInt(10000) + 1;
       data.add(item10);
     }
 
@@ -179,6 +193,7 @@ class ProductListItemModel {
   late String oldPrice;
   late String pic;
   late String sPic;
+  late int saleCount;
 
   ProductListItemModel({
     String? sId,
@@ -187,7 +202,8 @@ class ProductListItemModel {
     Object? price,
     String? oldPrice,
     String? pic,
-    String? sPic
+    String? sPic,
+    saleCount = 0
   });
 
   ProductListItemModel.fromJson(json) {
@@ -198,6 +214,7 @@ class ProductListItemModel {
     oldPrice = json["old_price"];
     pic = json["pic"];
     sPic = json["s_pic"];
+    saleCount = json["sale_count"];
   }
 
   Map<String, dynamic> toJson() {
@@ -209,7 +226,7 @@ class ProductListItemModel {
     data["old_price"] = oldPrice;
     data["pic"] = pic;
     data["s_pic"] = sPic;
+    data["sale_count"] = saleCount;
     return data;
   }
-
 }
