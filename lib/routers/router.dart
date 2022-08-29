@@ -27,7 +27,7 @@ import 'package:flutter_strong/product/order_list_page.dart';
  * CartNum() 购物车里一条记录右边的数量页面（左减、右增）
 **/
 
-//配置路由，{arguments} 可以直接是 model
+//配置命名路由，{arguments} 可以直接是 model，跳转构造函数直接使用 model 作为入参
 final routes = {
   '/': (context) => const TabBars(),// 主 tab
   '/search': (context) => const SearchPage(), // 搜索
