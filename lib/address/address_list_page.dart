@@ -52,7 +52,7 @@ class _AddressListPageState extends State<AddressListPage> {
     if (isLogin) {
       // 持久化本地
       for (var item in _addressList) {
-        if (item.isDefaultAddress) {
+        if (item.isDefaultAddress && item.sId != value) {
           item.isDefaultAddress = false;
           continue;
         }
