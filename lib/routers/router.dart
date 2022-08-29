@@ -27,7 +27,7 @@ import 'package:flutter_strong/product/order_list_page.dart';
  * CartNum() 购物车里一条记录右边的数量页面（左减、右增）
 **/
 
-//配置路由
+//配置路由，{arguments} 可以直接是 model
 final routes = {
   '/': (context) => const TabBars(),// 主 tab
   '/search': (context) => const SearchPage(), // 搜索
@@ -37,11 +37,11 @@ final routes = {
   '/productContent': (context, {arguments}) => ProductContentPage(arguments: arguments),// 产品内容壳页面
   '/checkOut': (context) => const CheckOutPage(), // 结算页
   '/addressAdd': (context,{arguments}) => AddressAddPage(arguments: arguments), // 收货地址添加
-  '/addressEdit': (context, {arguments}) => AddressEditPage(arguments: arguments), // 编辑地址
+  '/addressEdit': (context, {arguments}) => AddressEditPage(addressModel: arguments), // 编辑地址
   '/addressList': (context) => const AddressListPage(), // 收货地址列表
   '/pay': (context, {arguments}) => PayPage(arguments: arguments), // 支付（立即下单）
-  '/order': (context, {arguments}) => OrderPage(arguments: arguments), // 定单
-  '/orderInfo': (context, {arguments}) => OrderInfoPage(arguments: arguments), // 定单详情页
+  '/order': (context, {arguments}) => OrderPage(arguments: arguments), // 订单
+  '/orderInfo': (context, {arguments}) => OrderInfoPage(orderResult: arguments), // 订单信息详情页
   '/orderListPage': (context, {arguments}) => OrderListPage(arguments: arguments), // 订单分类列表（已付款、已经收货等）
 };
 

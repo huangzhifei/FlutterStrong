@@ -12,9 +12,9 @@ import 'package:flutter_strong/uikit/fs_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AddressEditPage extends StatefulWidget {
-  // final AddressModel addressModel;
-  final Map<String, dynamic> arguments;
-  const AddressEditPage({Key? key, required this.arguments}) : super(key: key);
+  final AddressModel addressModel;
+  // final Map<String, dynamic> arguments;
+  const AddressEditPage({Key? key, required this.addressModel}) : super(key: key);
 
   @override
   State<AddressEditPage> createState() => _AddressEditPageState();
@@ -31,7 +31,7 @@ class _AddressEditPageState extends State<AddressEditPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    addressModel = AddressModel.fromJson(widget.arguments);
+    addressModel = widget.addressModel;
     // 需要这样初始化，不然一输入光标就跑到最前面去，还会出现输入一个字符，会随机自动重复输入N个其他字符
     nameController = TextEditingController.fromValue(TextEditingValue(
       // 设置内容

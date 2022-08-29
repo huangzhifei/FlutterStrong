@@ -190,13 +190,8 @@ class _AddressListPageState extends State<AddressListPage> {
                           color: Colors.red,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, "/addressEdit", arguments: {
-                            "sId": _addressList[index].sId,
-                            "name": _addressList[index].name,
-                            "phone": _addressList[index].phone,
-                            "address": _addressList[index].address,
-                            "area": _addressList[index].area,
-                          });
+                          // 可以直接传 model
+                          Navigator.pushNamed(context, "/addressEdit", arguments: _addressList[index]);
                         },
                       ),
                     ),

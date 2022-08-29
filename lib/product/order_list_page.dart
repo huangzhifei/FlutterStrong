@@ -92,9 +92,7 @@ class _OrderListPageState extends State<OrderListPage> {
         children: _orderList.map((value) {
           return InkWell(
             onTap: () {
-              Navigator.pushNamed(context, "/orderInfo", arguments: {
-                "model": value.toJson(),
-              });
+              Navigator.pushNamed(context, "/orderInfo", arguments: value);
             },
             child: Card(
               child: Column(

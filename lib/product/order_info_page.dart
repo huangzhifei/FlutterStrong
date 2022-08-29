@@ -4,8 +4,8 @@ import 'package:flutter_strong/services/screen_adaper.dart';
 import 'package:flutter_strong/tool/fs_tool.dart';
 
 class OrderInfoPage extends StatefulWidget {
-  final Map arguments;
-  const OrderInfoPage({Key? key, required this.arguments}) : super(key: key);
+  final OrderResult orderResult;
+  const OrderInfoPage({Key? key, required this.orderResult}) : super(key: key);
 
   @override
   State<OrderInfoPage> createState() => _OrderInfoPageState();
@@ -18,7 +18,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _orderRes = OrderResult.fromJson(widget.arguments["model"]);
+    _orderRes = widget.orderResult;
   }
 
   // 订单商品列表组件
