@@ -53,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
+            Navigator.of(context).canPop();
             Navigator.pop(context);
           },
         ),
