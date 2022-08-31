@@ -19,12 +19,11 @@ class _HomePageWidgetState extends State<HomePageWidget> with AutomaticKeepAlive
   // 轮播图 FocusModel
   List<FocusItem> _focusData = [];
   _getFocusData() async {
-    // var apiURL = "${Config.domain}api/focus";
-    // var result = await Dio().get(apiURL);
     List<dynamic> temp = [];
     var result = {"result": temp};
     // print(result.data is Map); // String 需要 Json 化成 Map
     FocusModel focusModel = FocusModel.fromJson(result);
+    print("The type of focusModel is ${focusModel.runtimeType}");
     setState(() {
       _focusData = focusModel.result;
     });

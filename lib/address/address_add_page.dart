@@ -3,6 +3,7 @@ import 'package:city_pickers/city_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_strong/config/config.dart';
 import 'package:flutter_strong/models/address_model.dart';
+import 'package:flutter_strong/models/address_model_category.dart';
 import 'package:flutter_strong/services/events_bus.dart';
 import 'package:flutter_strong/services/fsstorage.dart';
 import 'package:flutter_strong/services/screen_adaper.dart';
@@ -120,7 +121,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
               maxLines: 4,
               height: 200,
               onChanged: (value) {
-                addressModel.address = "${addressModel.area} $value";
+                addressModel.address = "${addressModel.area} $value" + addressModel.getEnName();
               },
             ),
 
