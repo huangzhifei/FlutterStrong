@@ -6,6 +6,10 @@
 
 ## Getting Started
 
+项目创建命令：
+
+flutter create -i objc -a java flutter_strong
+
 这里涉及到的主要 Widget 页面如下：
 
  * 主要的 Widget 页面（还有很多辅助类、Model类没有列出来）
