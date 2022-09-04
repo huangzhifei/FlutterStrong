@@ -2,6 +2,8 @@
 
 一个简单的、新的 Flutter 的购物类 App
 
+目前这项目的数据全是本地造的假数据
+
 ## Getting Started
 
 这里涉及到的主要 Widget 页面如下：
